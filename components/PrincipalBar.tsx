@@ -32,18 +32,50 @@ import {
   CrosshairsSimple,
   ChevronRight,
   ChevronDown,
+  RotateRight,
+  Plus,
 } from "@/components/icons"
 
 interface PrincipalBarProps {
   className?: string
   variant?: "default" | "form" | "form-edit" | "form-edit-select" | "nav-bar"
+  initialMode?: "mapa" | "formularios"
+  onModeChange?: (mode: "mapa" | "formularios") => void
+  onSearch?: (query: string) => void
 }
 
 export function PrincipalBar({ 
   className,
-  variant = "default" 
+  variant = "default",
+  initialMode = "mapa",
+  onModeChange,
+  onSearch
 }: PrincipalBarProps) {
-  const [mode, setMode] = React.useState<"mapa" | "formularios">("mapa")
+  const [mode, setMode] = React.useState<"mapa" | "formularios">(initialMode)
+  const [searchValue, setSearchValue] = React.useState("")
+  
+  // Sincronizar modo quando initialMode mudar
+  React.useEffect(() => {
+    setMode(initialMode)
+  }, [initialMode])
+  
+  const handleModeChange = (newMode: "mapa" | "formularios") => {
+    setMode(newMode)
+    onModeChange?.(newMode)
+  }
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (mode === "mapa" && onSearch && searchValue.trim()) {
+      onSearch(searchValue.trim())
+    }
+  }
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearchSubmit(e)
+    }
+  }
   const [activeTab, setActiveTab] = React.useState("tab-1")
   
   const [tabs, setTabs] = React.useState<ProjectTabItem[]>([
@@ -119,51 +151,88 @@ export function PrincipalBar({
           <div className="border-r border-border flex items-center justify-center px-3">
             <ToggleModeTool
               mode={mode}
-              onModeChange={setMode}
+              onModeChange={handleModeChange}
             />
           </div>
 
-          {/* Map Tools */}
-          <div className="bg-background flex gap-2 items-center justify-center px-3 py-2 rounded-2xl">
-            <Button size="icon" className="h-9 w-9 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg">
-              <LocationPlus size={18} />
-            </Button>
-            <Button variant="ghost" size="icon" className="h-9 w-9">
-              <BorderInner size={18} />
-            </Button>
-            <Button variant="ghost" size="icon" className="h-9 w-9">
-              <DrawPolygon size={18} />
-            </Button>
-            <Button variant="ghost" size="icon" className="h-9 w-9">
-              <Circle size={18} />
-            </Button>
-            <Button variant="ghost" size="icon" className="h-9 w-9">
-              <LayerGroup size={18} />
-            </Button>
-            <Button variant="ghost" size="icon" className="h-9 w-9">
-              <Heatmap size={18} />
-            </Button>
-          </div>
+          {/* Map Tools ou Form Tools */}
+          {mode === "mapa" ? (
+            <div className="bg-background flex gap-2 items-center justify-center px-3 py-2 rounded-2xl">
+              <Button size="icon" className="h-9 w-9 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg">
+                <LocationPlus size={18} />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <BorderInner size={18} />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <DrawPolygon size={18} />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <Circle size={18} />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <LayerGroup size={18} />
+              </Button>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <Heatmap size={18} />
+              </Button>
+            </div>
+          ) : (
+            <div className="bg-background flex gap-2 items-center justify-center px-3 py-2 rounded-2xl">
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <RotateRight size={18} />
+              </Button>
+              <Button className="h-9 gap-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2">
+                <span className="text-xs font-medium">Criar</span>
+                <Plus size={16} />
+              </Button>
+            </div>
+          )}
         </div>
 
         {/* Search and Actions */}
         <div className="flex gap-2 items-center justify-center px-4">
-          <Button variant="ghost" size="icon" className="h-9 w-9">
-            <CrosshairsSimple size={18} />
-          </Button>
-          <div className="flex items-center">
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-9 w-9 rounded-r-none border-r-0"
-            >
-              <MagnifyingGlass size={18} />
-            </Button>
-            <Input
-              placeholder="Buscar local"
-              className="h-9 w-[269px] rounded-l-none border-l-0"
-            />
-          </div>
+          {mode === "mapa" ? (
+            <>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                <CrosshairsSimple size={18} />
+              </Button>
+              <form onSubmit={handleSearchSubmit} className="flex items-center">
+                <Button
+                  type="submit"
+                  variant="outline"
+                  size="icon"
+                  className="h-9 w-9 rounded-r-none border-r-0"
+                >
+                  <MagnifyingGlass size={18} />
+                </Button>
+                <Input
+                  placeholder="Buscar local"
+                  className="h-9 w-[269px] rounded-l-none border-l-0"
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  onKeyDown={handleSearchKeyDown}
+                />
+              </form>
+            </>
+          ) : (
+            <form onSubmit={handleSearchSubmit} className="flex items-center">
+              <Button
+                type="submit"
+                variant="outline"
+                size="icon"
+                className="h-9 w-9 rounded-r-none border-r-0"
+              >
+                <MagnifyingGlass size={18} />
+              </Button>
+              <Input
+                placeholder="Buscar formulário"
+                className="h-9 w-[269px] rounded-l-none border-l-0"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+            </form>
+          )}
           <Button variant="ghost" size="icon" className="h-9 w-9">
             <Bell size={18} />
           </Button>

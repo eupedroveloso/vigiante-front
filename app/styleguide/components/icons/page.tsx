@@ -1,16 +1,88 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import * as Icons from "@/components/icons/icons"
 import type { IconName } from "@/components/icons/icons"
+
+// Função para carregar SVG
+async function loadSVG(src: string): Promise<string> {
+  try {
+    const response = await fetch(src)
+    if (!response.ok) {
+      throw new Error(`Failed to load SVG: ${src}`)
+    }
+    return await response.text()
+  } catch (error) {
+    console.error(`Erro ao carregar SVG: ${src}`, error)
+    return ""
+  }
+}
+
+// Função para modificar SVG com cor e tamanho
+function modifySVG(svgContent: string, color: string, size: number): string {
+  let modified = svgContent
+  
+  // Substituir fill="currentColor" ou fill="none" por fill com a cor especificada em todos os elementos
+  modified = modified
+    .replace(/fill="currentColor"/gi, `fill="${color}"`)
+    .replace(/fill="none"/gi, `fill="${color}"`)
+    .replace(/fill='currentColor'/gi, `fill='${color}'`)
+    .replace(/fill='none'/gi, `fill='${color}'`)
+  
+  // Adicionar fill em elementos path, circle, rect, polygon, etc. que não têm fill
+  const elementsWithoutFill = ['<path', '<circle', '<rect', '<polygon', '<polyline', '<ellipse', '<line']
+  elementsWithoutFill.forEach((element) => {
+    // Regex para encontrar elementos sem atributo fill
+    const regex = new RegExp(`(${element}[^>]*?)(?!fill=)(>)`, 'gi')
+    modified = modified.replace(regex, (match, p1, p2) => {
+      // Se já tem fill, não adicionar
+      if (p1.includes('fill=')) return match
+      // Adicionar fill antes do >
+      return `${p1} fill="${color}"${p2}`
+    })
+  })
+  
+  // Atualizar width e height no elemento SVG
+  modified = modified
+    .replace(/<svg([^>]*?)width="[^"]*"/gi, `<svg$1width="${size}"`)
+    .replace(/<svg([^>]*?)height="[^"]*"/gi, `<svg$1height="${size}"`)
+    .replace(/<svg([^>]*?)width='[^']*'/gi, `<svg$1width='${size}'`)
+    .replace(/<svg([^>]*?)height='[^']*'/gi, `<svg$1height='${size}'`)
+  
+  // Se não tem width/height, adicionar
+  if (!/<svg[^>]*width=/i.test(modified)) {
+    modified = modified.replace(/<svg([^>]*?)>/i, `<svg$1 width="${size}" height="${size}">`)
+  }
+  
+  return modified
+}
+
+// Função para baixar SVG
+function downloadSVG(svgContent: string, filename: string) {
+  const blob = new Blob([svgContent], { type: "image/svg+xml" })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement("a")
+  link.href = url
+  link.download = `${filename}.svg`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
 
 export default function IconsPage() {
   const [isDark, setIsDark] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedSize, setSelectedSize] = useState<number>(16)
+  const [editingIcon, setEditingIcon] = useState<IconName | null>(null)
+  const [iconColor, setIconColor] = useState<string>("#000000")
+  const [iconSize, setIconSize] = useState<number>(24)
+  const [svgContent, setSvgContent] = useState<string>("")
+  const [modifiedSvg, setModifiedSvg] = useState<string>("")
 
   const iconNames: IconName[] = [
     "arrow-up-from-bracket",
@@ -90,6 +162,60 @@ export default function IconsPage() {
     const Icon = Icons.iconRegistry[name]
     if (!Icon) return null
     return <Icon size={selectedSize} />
+  }
+
+  // Carregar SVG quando abrir modal de edição
+  useEffect(() => {
+    if (editingIcon) {
+      const iconUrl = Icons.iconUrls[editingIcon]
+      const isSvg = iconUrl && iconUrl.toLowerCase().endsWith('.svg')
+      if (isSvg) {
+        loadSVG(iconUrl).then((content) => {
+          if (content) {
+            setSvgContent(content)
+            const modified = modifySVG(content, iconColor, iconSize)
+            setModifiedSvg(modified)
+          }
+        })
+      } else {
+        // Se não for SVG, limpar estados
+        setSvgContent("")
+        setModifiedSvg("")
+      }
+    }
+  }, [editingIcon])
+
+  // Atualizar SVG modificado quando cor ou tamanho mudar
+  useEffect(() => {
+    if (svgContent && editingIcon) {
+      const modified = modifySVG(svgContent, iconColor, iconSize)
+      setModifiedSvg(modified)
+    }
+  }, [iconColor, iconSize, svgContent, editingIcon])
+
+  const handleIconClick = (name: IconName) => {
+    setEditingIcon(name)
+    setIconSize(24)
+    setIconColor("#000000")
+  }
+
+  const handleDownload = () => {
+    if (editingIcon && modifiedSvg) {
+      downloadSVG(modifiedSvg, editingIcon)
+    }
+  }
+
+  const handleCopySVG = async () => {
+    if (modifiedSvg) {
+      try {
+        await navigator.clipboard.writeText(modifiedSvg)
+        // Mostrar feedback visual (opcional)
+        alert("SVG copiado para a área de transferência!")
+      } catch (error) {
+        console.error("Erro ao copiar SVG:", error)
+        alert("Erro ao copiar SVG. Tente novamente.")
+      }
+    }
   }
 
   return (
@@ -174,7 +300,7 @@ export default function IconsPage() {
             <CardHeader>
               <CardTitle>Todos os Ícones</CardTitle>
               <CardDescription>
-                Clique em um ícone para copiar o nome
+                Clique em um ícone para editar e baixar o SVG modificado
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -185,10 +311,8 @@ export default function IconsPage() {
                     <div
                       key={name}
                       className="flex flex-col items-center gap-2 p-4 rounded-lg border hover:bg-muted cursor-pointer transition-colors"
-                      onClick={() => {
-                        navigator.clipboard.writeText(name)
-                      }}
-                      title={`Clique para copiar: ${name}`}
+                      onClick={() => handleIconClick(name)}
+                      title={`Clique para editar: ${name}`}
                     >
                       {Icon && <Icon size={selectedSize} />}
                       <span className="text-xs text-center text-muted-foreground break-all">
@@ -455,6 +579,132 @@ const iconName: IconName = "map"
               </ul>
             </CardContent>
           </Card>
+
+          {/* Modal de Edição */}
+          {editingIcon && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <Card className="w-full max-w-md">
+                <CardHeader>
+                  <CardTitle>Editar Ícone: {editingIcon}</CardTitle>
+                  <CardDescription>
+                    Personalize a cor e o tamanho do ícone e baixe o SVG modificado
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Preview */}
+                  <div className="flex items-center justify-center p-8 bg-muted rounded-lg min-h-[200px]">
+                    {modifiedSvg ? (
+                      <div 
+                        dangerouslySetInnerHTML={{ __html: modifiedSvg }}
+                        className="flex items-center justify-center"
+                      />
+                    ) : Icons.iconUrls[editingIcon]?.toLowerCase().endsWith('.svg') ? (
+                      <div className="text-muted-foreground">Carregando...</div>
+                    ) : (
+                      <div className="text-muted-foreground text-center">
+                        Este ícone é uma imagem (JPG/PNG) e não pode ser editado como SVG.
+                        <br />
+                        Apenas ícones SVG podem ser personalizados.
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Controles de Cor */}
+                  <div className="space-y-2">
+                    <Label htmlFor="color-picker">Cor</Label>
+                    <div className="flex gap-2 items-center">
+                      <Input
+                        id="color-picker"
+                        type="color"
+                        value={iconColor}
+                        onChange={(e) => setIconColor(e.target.value)}
+                        className="w-20 h-10 cursor-pointer"
+                      />
+                      <Input
+                        type="text"
+                        value={iconColor}
+                        onChange={(e) => setIconColor(e.target.value)}
+                        placeholder="#000000"
+                        className="flex-1"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Controles de Tamanho */}
+                  <div className="space-y-2">
+                    <Label htmlFor="size-input">Tamanho (px)</Label>
+                    <div className="flex gap-2 items-center">
+                      <Input
+                        id="size-input"
+                        type="number"
+                        min="8"
+                        max="512"
+                        step="1"
+                        value={iconSize}
+                        onChange={(e) => setIconSize(Number(e.target.value))}
+                        className="flex-1"
+                      />
+                      <div className="flex gap-1">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setIconSize(Math.max(8, iconSize - 8))}
+                        >
+                          -8
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setIconSize(Math.min(512, iconSize + 8))}
+                        >
+                          +8
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Botões de Ação */}
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => {
+                        setEditingIcon(null)
+                        setSvgContent("")
+                        setModifiedSvg("")
+                      }}
+                    >
+                      Fechar
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={handleCopySVG}
+                      disabled={!modifiedSvg || !Icons.iconUrls[editingIcon]?.toLowerCase().endsWith('.svg')}
+                    >
+                      Copiar SVG
+                    </Button>
+                    <Button
+                      className="flex-1"
+                      onClick={handleDownload}
+                      disabled={!modifiedSvg || !Icons.iconUrls[editingIcon]?.toLowerCase().endsWith('.svg')}
+                    >
+                      Baixar SVG
+                    </Button>
+                  </div>
+
+                  {/* Preview do código */}
+                  {modifiedSvg && (
+                    <div className="space-y-2">
+                      <Label>Preview do SVG</Label>
+                      <pre className="bg-muted p-3 rounded-md text-xs overflow-x-auto max-h-40">
+                        <code>{modifiedSvg.substring(0, 200)}...</code>
+                      </pre>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </div>
     </div>

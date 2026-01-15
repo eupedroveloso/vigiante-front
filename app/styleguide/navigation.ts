@@ -26,6 +26,11 @@ export const navigation: NavSection[] = [
               { name: "Map Tools", href: "/styleguide/components/map-tools" },
               { name: "Map Mode View", href: "/styleguide/components/map-mode-view" },
               { name: "Breadcrumb", href: "/styleguide/components/breadcrumb" },
+              { name: "Table", href: "/styleguide/components/table" },
+              { name: "Table Cell", href: "/styleguide/components/table-cell" },
+              { name: "Toggle", href: "/styleguide/components/toggle" },
+              { name: "Switch", href: "/styleguide/components/switch" },
+              { name: "Tooltip", href: "/styleguide/components/tooltip" },
             ]
           }
 ]

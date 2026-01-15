@@ -195,6 +195,10 @@ function createIcon(
         )
       }
       
+      // Extrair style das props para aplicar cor corretamente
+      const { style: propsStyle, ...restProps } = props
+      const iconColor = propsStyle?.color || "inherit"
+      
       return (
         <div
           ref={ref}
@@ -208,14 +212,17 @@ function createIcon(
             height: sizeValue,
             minWidth: sizeValue,
             minHeight: sizeValue,
-            color: "inherit" // Herdar cor do texto para currentColor funcionar
+            color: iconColor, // Aplicar cor para garantir herança
+            ...propsStyle // Mesclar outros estilos das props
           }}
-          {...props}
+          {...restProps}
         >
           {svgContent && (
             <div
               className="w-full h-full flex items-center justify-center"
-              style={{ color: "inherit" }}
+              style={{ 
+                color: iconColor, // Garantir herança de cor para currentColor funcionar
+              }}
               dangerouslySetInnerHTML={{ __html: svgContent }}
             />
           )}
@@ -228,7 +235,7 @@ function createIcon(
 }
 
 // Icon paths (local files in public/icons/)
-const iconUrls = {
+export const iconUrls = {
   "arrow-up-from-bracket": "/icons/arrow-up-from-bracket.svg",
   "file": "/icons/file.svg",
   "circle-info": "/icons/circle-info.svg",

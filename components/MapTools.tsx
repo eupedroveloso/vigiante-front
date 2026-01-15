@@ -69,10 +69,21 @@ export function MapTools({
       className={cn(
         "bg-background flex flex-col items-center justify-center rounded-lg border border-border w-[48px]",
         "p-2 overflow-visible",
+        "h-auto min-h-fit", // Altura automática mas não cresce além do necessário
         className
       )}
+      style={{
+        height: "fit-content", // Altura baseada no conteúdo
+        maxHeight: "fit-content", // Não permite crescimento além do necessário
+      }}
     >
-      <div className="flex flex-col gap-1 items-center justify-center w-full overflow-visible">
+      <div 
+        className="flex flex-col gap-1 items-center justify-center w-full overflow-visible"
+        style={{
+          height: "fit-content",
+          minHeight: "fit-content",
+        }}
+      >
         {tools.map((tool, index) => {
           return (
             <React.Fragment key={tool.id}>
@@ -91,7 +102,14 @@ export function MapTools({
           )
         })}
         {/* MapModeView abaixo do botão street-view */}
-        <div className="flex items-center justify-center w-full overflow-visible">
+        <div 
+          className="flex items-center justify-center w-full overflow-visible"
+          style={{
+            height: "36px", // Altura fixa igual ao tamanho do botão (h-9 = 36px)
+            minHeight: "36px",
+            maxHeight: "36px",
+          }}
+        >
           <MapModeView
             mode={mapMode}
             onModeChange={onMapModeChange}

@@ -72,7 +72,7 @@ function MapPreview({
 
 export function MapModeView({
   className,
-  mode = "satelite",
+  mode = "gps",
   onModeChange,
 }: MapModeViewProps) {
   const [isHovered, setIsHovered] = React.useState(false)

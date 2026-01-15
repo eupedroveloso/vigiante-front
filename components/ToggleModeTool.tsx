@@ -71,9 +71,10 @@ export function ToggleModeTool({
       >
         <LocationDot
           size={size === "sm" ? 18 : size === "md" ? 18 : 24}
-          className={cn(
-            isMapa ? "text-primary" : "text-muted-foreground"
-          )}
+          className={isMapa ? "[&>div]:!text-primary [&>div>div]:!text-primary" : ""}
+          style={{ 
+            color: isMapa ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"
+          }}
         />
       </Button>
 
@@ -94,9 +95,10 @@ export function ToggleModeTool({
       >
         <List
           size={size === "sm" ? 18 : size === "md" ? 18 : 24}
-          className={cn(
-            isFormularios ? "text-primary" : "text-muted-foreground"
-          )}
+          className={isFormularios ? "[&>div]:!text-primary [&>div>div]:!text-primary" : ""}
+          style={{ 
+            color: isFormularios ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))"
+          }}
         />
       </Button>
     </div>

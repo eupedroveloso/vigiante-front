@@ -641,6 +641,510 @@ export default function StyleguidePage() {
             </Card>
           </section>
 
+          {/* System Colors */}
+          <section>
+            <h2 className="text-3xl font-bold mb-6">Cores do Sistema</h2>
+            <CardDescription className="mb-6">
+              Todas as cores utilizadas em cada parte do sistema, organizadas por categoria
+            </CardDescription>
+
+            {/* Base Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Base</CardTitle>
+                <CardDescription>Cores fundamentais para backgrounds e textos</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-4 p-4 border rounded-lg">
+                      <div
+                        className="w-16 h-16 rounded-md border-2 border-border"
+                        style={{ backgroundColor: "var(--background)" }}
+                      />
+                      <div className="flex-1">
+                        <div className="font-semibold">Background</div>
+                        <div className="text-sm text-muted-foreground">var(--background)</div>
+                        <div className="text-xs text-muted-foreground font-mono mt-1">
+                          Cor de fundo principal da aplicação
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 p-4 border rounded-lg">
+                      <div
+                        className="w-16 h-16 rounded-md border-2 border-border flex items-center justify-center"
+                        style={{ backgroundColor: "var(--foreground)", color: "var(--background)" }}
+                      >
+                        <span className="text-xs">Aa</span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold">Foreground</div>
+                        <div className="text-sm text-muted-foreground">var(--foreground)</div>
+                        <div className="text-xs text-muted-foreground font-mono mt-1">
+                          Cor principal de texto
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Card Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Card</CardTitle>
+                <CardDescription>Cores para componentes de card</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border"
+                      style={{ backgroundColor: "var(--card)" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Card</div>
+                      <div className="text-sm text-muted-foreground">var(--card)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Background de cards e containers
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border flex items-center justify-center"
+                      style={{ backgroundColor: "var(--card-foreground)", color: "var(--card)" }}
+                    >
+                      <span className="text-xs">Aa</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold">Card Foreground</div>
+                      <div className="text-sm text-muted-foreground">var(--card-foreground)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Texto dentro de cards
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Primary Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Primary</CardTitle>
+                <CardDescription>Cor primária da marca (Laranja)</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border"
+                      style={{ backgroundColor: "var(--primary)" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Primary</div>
+                      <div className="text-sm text-muted-foreground">var(--primary)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        #FF5B04 - Cor principal da marca
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border flex items-center justify-center"
+                      style={{ backgroundColor: "var(--primary-foreground)", color: "var(--primary)" }}
+                    >
+                      <span className="text-xs">Aa</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold">Primary Foreground</div>
+                      <div className="text-sm text-muted-foreground">var(--primary-foreground)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Texto sobre fundo primary
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Secondary Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Secondary</CardTitle>
+                <CardDescription>Cores secundárias</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border"
+                      style={{ backgroundColor: "var(--secondary)" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Secondary</div>
+                      <div className="text-sm text-muted-foreground">var(--secondary)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Background secundário
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border flex items-center justify-center"
+                      style={{ backgroundColor: "var(--secondary-foreground)", color: "var(--secondary)" }}
+                    >
+                      <span className="text-xs">Aa</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold">Secondary Foreground</div>
+                      <div className="text-sm text-muted-foreground">var(--secondary-foreground)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Texto sobre fundo secondary
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Muted Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Muted</CardTitle>
+                <CardDescription>Cores suaves para backgrounds e textos secundários</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border"
+                      style={{ backgroundColor: "var(--muted)" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Muted</div>
+                      <div className="text-sm text-muted-foreground">var(--muted)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Background suave para elementos secundários
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border flex items-center justify-center"
+                      style={{ backgroundColor: "var(--muted-foreground)", color: "var(--muted)" }}
+                    >
+                      <span className="text-xs">Aa</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold">Muted Foreground</div>
+                      <div className="text-sm text-muted-foreground">var(--muted-foreground)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Texto secundário/desabilitado
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Accent Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Accent</CardTitle>
+                <CardDescription>Cores de destaque</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border"
+                      style={{ backgroundColor: "var(--accent)" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Accent</div>
+                      <div className="text-sm text-muted-foreground">var(--accent)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Background de destaque (hover states)
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border flex items-center justify-center"
+                      style={{ backgroundColor: "var(--accent-foreground)", color: "var(--accent)" }}
+                    >
+                      <span className="text-xs">Aa</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold">Accent Foreground</div>
+                      <div className="text-sm text-muted-foreground">var(--accent-foreground)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Texto sobre fundo accent
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Destructive Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Destructive</CardTitle>
+                <CardDescription>Cores para ações destrutivas e erros</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border"
+                      style={{ backgroundColor: "var(--destructive)" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Destructive</div>
+                      <div className="text-sm text-muted-foreground">var(--destructive)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Vermelho para erros e ações destrutivas
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border flex items-center justify-center"
+                      style={{ backgroundColor: "var(--destructive-foreground)", color: "var(--destructive)" }}
+                    >
+                      <span className="text-xs">Aa</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold">Destructive Foreground</div>
+                      <div className="text-sm text-muted-foreground">var(--destructive-foreground)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Texto sobre fundo destructive
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Borders & Inputs */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Borders & Inputs</CardTitle>
+                <CardDescription>Cores para bordas e campos de entrada</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2"
+                      style={{ borderColor: "var(--border)", backgroundColor: "transparent" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Border</div>
+                      <div className="text-sm text-muted-foreground">var(--border)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Cor padrão de bordas
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2"
+                      style={{ borderColor: "var(--input)", backgroundColor: "var(--input)" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Input</div>
+                      <div className="text-sm text-muted-foreground">var(--input)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Background e borda de inputs
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 ring-2"
+                      style={{ borderColor: "var(--ring)", ringColor: "var(--ring)" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Ring</div>
+                      <div className="text-sm text-muted-foreground">var(--ring)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Cor do anel de foco (focus ring)
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Popover Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Popover / Dropdown / Tooltip</CardTitle>
+                <CardDescription>Cores para elementos flutuantes</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border"
+                      style={{ backgroundColor: "var(--popover)" }}
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold">Popover</div>
+                      <div className="text-sm text-muted-foreground">var(--popover)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Background de popovers, dropdowns e tooltips
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div
+                      className="w-16 h-16 rounded-md border-2 border-border flex items-center justify-center"
+                      style={{ backgroundColor: "var(--popover-foreground)", color: "var(--popover)" }}
+                    >
+                      <span className="text-xs">Aa</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-semibold">Popover Foreground</div>
+                      <div className="text-sm text-muted-foreground">var(--popover-foreground)</div>
+                      <div className="text-xs text-muted-foreground font-mono mt-1">
+                        Texto dentro de popovers
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Chart Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Chart Colors</CardTitle>
+                <CardDescription>Cores para gráficos e visualizações</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                  {[
+                    { name: "Chart 1", var: "var(--chart-1)", desc: "Laranja primário" },
+                    { name: "Chart 2", var: "var(--chart-2)", desc: "Azul complementar" },
+                    { name: "Chart 3", var: "var(--chart-3)", desc: "Verde" },
+                    { name: "Chart 4", var: "var(--chart-4)", desc: "Roxo" },
+                    { name: "Chart 5", var: "var(--chart-5)", desc: "Amarelo/laranja" },
+                  ].map((chart) => (
+                    <div key={chart.name} className="flex flex-col items-center gap-3 p-4 border rounded-lg">
+                      <div
+                        className="w-full h-20 rounded-md border-2 border-border"
+                        style={{ backgroundColor: chart.var }}
+                      />
+                      <div className="text-center">
+                        <div className="font-semibold text-sm">{chart.name}</div>
+                        <div className="text-xs text-muted-foreground font-mono mt-1">
+                          {chart.var}
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          {chart.desc}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Sidebar Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Sidebar</CardTitle>
+                <CardDescription>Cores específicas para a barra lateral</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { name: "Sidebar", var: "var(--sidebar)", desc: "Background da sidebar" },
+                    { name: "Sidebar Foreground", var: "var(--sidebar-foreground)", desc: "Texto da sidebar" },
+                    { name: "Sidebar Primary", var: "var(--sidebar-primary)", desc: "Cor primária na sidebar" },
+                    { name: "Sidebar Primary Foreground", var: "var(--sidebar-primary-foreground)", desc: "Texto sobre primary na sidebar" },
+                    { name: "Sidebar Accent", var: "var(--sidebar-accent)", desc: "Destaque na sidebar" },
+                    { name: "Sidebar Accent Foreground", var: "var(--sidebar-accent-foreground)", desc: "Texto sobre accent na sidebar" },
+                    { name: "Sidebar Border", var: "var(--sidebar-border)", desc: "Borda da sidebar" },
+                    { name: "Sidebar Ring", var: "var(--sidebar-ring)", desc: "Ring de foco na sidebar" },
+                  ].map((sidebar) => (
+                    <div key={sidebar.name} className="flex items-center gap-3 p-3 border rounded-lg">
+                      <div
+                        className="w-12 h-12 rounded-md border-2 border-border shrink-0"
+                        style={{ backgroundColor: sidebar.var }}
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-sm">{sidebar.name}</div>
+                        <div className="text-xs text-muted-foreground font-mono truncate">
+                          {sidebar.var}
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          {sidebar.desc}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Semantic Colors */}
+            <Card className="mb-6">
+              <CardHeader>
+                <CardTitle>Cores Semânticas</CardTitle>
+                <CardDescription>Cores para feedback e estados</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {[
+                    { name: "Success", var: "var(--success)", foreground: "var(--success-foreground)", desc: "Verde para sucesso" },
+                    { name: "Warning", var: "var(--warning)", foreground: "var(--warning-foreground)", desc: "Amarelo/laranja para avisos" },
+                    { name: "Info", var: "var(--info)", foreground: "var(--info-foreground)", desc: "Azul para informações" },
+                    { name: "Destructive", var: "var(--destructive)", foreground: "var(--destructive-foreground)", desc: "Vermelho para erros" },
+                  ].map((semantic) => (
+                    <div key={semantic.name} className="space-y-3 p-4 border rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-16 h-16 rounded-md border-2 border-border"
+                          style={{ backgroundColor: semantic.var }}
+                        />
+                        <div className="flex-1">
+                          <div className="font-semibold">{semantic.name}</div>
+                          <div className="text-xs text-muted-foreground font-mono">
+                            {semantic.var}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <div
+                          className="w-16 h-16 rounded-md border-2 border-border flex items-center justify-center"
+                          style={{ backgroundColor: semantic.foreground, color: semantic.var }}
+                        >
+                          <span className="text-xs">Aa</span>
+                        </div>
+                        <div className="flex-1">
+                          <div className="font-semibold text-sm">{semantic.name} Foreground</div>
+                          <div className="text-xs text-muted-foreground font-mono">
+                            {semantic.foreground}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {semantic.desc}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </section>
+
           {/* CSS Variables Reference */}
           <section>
             <h2 className="text-3xl font-bold mb-6">Variáveis CSS</h2>
