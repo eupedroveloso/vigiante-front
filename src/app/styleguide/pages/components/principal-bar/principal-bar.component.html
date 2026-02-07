@@ -1,0 +1,384 @@
+<div class="p-8 space-y-12 max-w-7xl mx-auto">
+  <!-- Header -->
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Principal Bar</h1>
+    <p class="text-muted-foreground text-lg">
+      Barra principal de ações com menu toggle, botões de ação e campo de busca.
+    </p>
+  </header>
+
+  <!-- Import -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Import</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto">
+      <code class="text-sm">
+import {{ '{' }} PrincipalBarComponent {{ '}' }} from '@/shared/components/principal-bar/principal-bar.component';
+
+@@Component({{ '{' }}
+  imports: [PrincipalBarComponent]
+{{ '}' }})
+      </code>
+    </pre>
+  </section>
+
+  <!-- Design completo Figma 309-1542 -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Design completo (Figma 309-1542)</h2>
+      <p class="text-muted-foreground">Três linhas: barra escura (project-tabs), toolbar (menu, mode-tool, ações, input com ícone, notificações), breadcrumb com ícones à direita.</p>
+    </div>
+    <div class="border border-border rounded-lg overflow-hidden bg-card">
+      <app-principal-bar
+        [showMenuToggle]="true"
+        [showProjectTabs]="true"
+        [projectTabs]="projectTabs()"
+        [activeProjectTabIndex]="activeProjectTabIndex()"
+        [showProjectTabsAddButton]="true"
+        [showToolsBarMap]="true"
+        [activeToolsBarMapToolId]="activeToolsBarMapToolId()"
+        [showModeTool]="true"
+        [modeToolOptions]="modeToolOptions"
+        [modeToolValue]="modeToolValue()"
+        [showSearch]="true"
+        [searchPlaceholder]="'Buscar local'"
+        [showNotifications]="true"
+        [showBreadcrumb]="true"
+        [breadcrumbItems]="breadcrumbItems()"
+        [breadcrumbRightActions]="breadcrumbRightActions()"
+        (menuToggleClick)="onMenuToggle()"
+        (projectTabSelect)="onProjectTabSelect($event)"
+        (projectTabClose)="onProjectTabClose($event)"
+        (projectTabAdd)="onProjectTabAdd()"
+        (modeToolChange)="onModeToolChange($event)"
+        (actionClick)="onToolsBarMapToolClick($event)"
+        (searchChange)="onSearchChange($event)"
+        (notificationClick)="onNotificationClick()"
+        (breadcrumbActionClick)="onBreadcrumbActionClick($event)"
+      />
+    </div>
+  </section>
+
+  <!-- Default Example (sem project tabs / breadcrumb) -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Exemplo Padrão</h2>
+      <p class="text-muted-foreground">Barra principal com menu, mode-tool, ações, input de busca (com ícone e divisor) e notificações.</p>
+    </div>
+    <div class="border border-border rounded-lg overflow-hidden bg-card">
+      <app-principal-bar
+        [showMenuToggle]="true"
+        [actions]="defaultActions()"
+        [showSearch]="true"
+        [showNotifications]="true"
+        [showProjectTabs]="false"
+        [showBreadcrumb]="false"
+        [showModeTool]="true"
+        [modeToolOptions]="modeToolOptions"
+        [modeToolValue]="modeToolValue()"
+        (menuToggleClick)="onMenuToggle()"
+        (actionClick)="onActionClick($event)"
+        (searchChange)="onSearchChange($event)"
+        (notificationClick)="onNotificationClick()"
+        (modeToolChange)="onModeToolChange($event)"
+      />
+    </div>
+
+    <!-- Code Example -->
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto">
+      <code class="text-sm">
+&lt;app-principal-bar
+  [showMenuToggle]="true"
+  [actions]="actions"
+  [showSearch]="true"
+  [showNotifications]="true"
+  [showProjectTabs]="false"
+  [showModeTool]="true"
+  [modeToolOptions]="modeToolOptions"
+  [modeToolValue]="modeToolValue()"
+  (menuToggleClick)="onMenuToggle()"
+  (actionClick)="onActionClick($event)"
+  (searchChange)="onSearchChange($event)"
+  (notificationClick)="onNotificationClick()"
+  (modeToolChange)="onModeToolChange($event)"
+/&gt;
+      </code>
+    </pre>
+  </section>
+
+  <!-- Variants -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Variantes</h2>
+      <p class="text-muted-foreground">Diferentes configurações do componente.</p>
+    </div>
+    
+    <!-- Without Menu -->
+    <div class="space-y-2">
+      <h3 class="text-lg font-semibold">Sem Menu Toggle</h3>
+      <div class="border border-border rounded-lg overflow-hidden bg-card">
+        <app-principal-bar
+          [showMenuToggle]="false"
+          [actions]="defaultActions()"
+          [showSearch]="true"
+          [showNotifications]="true"
+        />
+      </div>
+    </div>
+
+    <!-- Without Search -->
+    <div class="space-y-2">
+      <h3 class="text-lg font-semibold">Sem Campo de Busca</h3>
+      <div class="border border-border rounded-lg overflow-hidden bg-card">
+        <app-principal-bar
+          [showMenuToggle]="true"
+          [actions]="defaultActions()"
+          [showSearch]="false"
+          [showNotifications]="true"
+        />
+      </div>
+    </div>
+
+    <!-- Minimal -->
+    <div class="space-y-2">
+      <h3 class="text-lg font-semibold">Versão Mínima</h3>
+      <div class="border border-border rounded-lg overflow-hidden bg-card">
+        <app-principal-bar
+          [showMenuToggle]="true"
+          [actions]="defaultActions().slice(0, 3)"
+          [showSearch]="false"
+          [showNotifications]="false"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Props Documentation -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Props</h2>
+    
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Prop</th>
+            <th class="text-left p-3 font-semibold">Type</th>
+            <th class="text-left p-3 font-semibold">Default</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">showMenuToggle</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">true</code></td>
+            <td class="p-3">Exibe o botão de toggle do menu</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">actions</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">PrincipalBarAction[]</code></td>
+            <td class="p-3"><code class="text-sm">[]</code></td>
+            <td class="p-3">Array de ações/botões a serem exibidos</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">searchPlaceholder</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">'Buscar local'</code></td>
+            <td class="p-3">Placeholder do campo de busca</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">showSearch</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">true</code></td>
+            <td class="p-3">Exibe o campo de busca</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">showNotifications</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">true</code></td>
+            <td class="p-3">Exibe o botão de notificações</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">showModeTool</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">true</code></td>
+            <td class="p-3">Exibe o seletor de modo (mode-tool: mapa/lista)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">modeToolOptions</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">ModeToolOption[]</code></td>
+            <td class="p-3"><code class="text-sm">[]</code></td>
+            <td class="p-3">Opções do mode-tool (ex.: mapa, lista)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">modeToolValue</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">''</code></td>
+            <td class="p-3">Id da opção selecionada no mode-tool</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">showToolsBarMap</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">false</code></td>
+            <td class="p-3">Usa o tools-bar-map (menu + mode-tool + ícones: border-inner, draw-polygon, draw-circle, layer-group) em vez de menu + mode-tool + actions</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">activeToolsBarMapToolId</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">undefined</code></td>
+            <td class="p-3">Id do botão ativo do tools-bar-map (border-inner, draw-polygon, draw-circle, layer-group)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">showBreadcrumb</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">true</code></td>
+            <td class="p-3">Exibe a barra de breadcrumb abaixo da toolbar</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">breadcrumbItems</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">BreadcrumbItem[]</code></td>
+            <td class="p-3"><code class="text-sm">[]</code></td>
+            <td class="p-3">Itens do breadcrumb (label, routerLink?, ellipsis?)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">breadcrumbRightActions</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">PrincipalBarBreadcrumbAction[]</code></td>
+            <td class="p-3"><code class="text-sm">[]</code></td>
+            <td class="p-3">Ícones à direita do breadcrumb (id, icon filename, label?)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Events Documentation -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Events</h2>
+    
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Event</th>
+            <th class="text-left p-3 font-semibold">Payload</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">menuToggleClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">void</code></td>
+            <td class="p-3">Emitido quando o botão de menu é clicado</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">actionClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">Emitido quando uma ação é clicada (retorna o id da ação)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">searchChange</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">Emitido quando o valor da busca muda</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">notificationClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">void</code></td>
+            <td class="p-3">Emitido quando o botão de notificações é clicado</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">modeToolChange</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">Emitido quando o modo no mode-tool muda (retorna o id da opção)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">breadcrumbActionClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">Emitido ao clicar em um ícone à direita do breadcrumb (retorna o id da ação)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PrincipalBarAction Interface -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">PrincipalBarAction Interface</h2>
+    
+    <div class="bg-muted p-4 rounded-lg">
+      <pre class="text-sm overflow-x-auto">
+        <code>
+export interface PrincipalBarAction {{ '{' }}
+  id: string;
+  icon: string;
+  label?: string;
+  active?: boolean;
+  disabled?: boolean;
+{{ '}' }}
+        </code>
+      </pre>
+    </div>
+
+    <div class="border rounded-lg overflow-hidden mt-4">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Propriedade</th>
+            <th class="text-left p-3 font-semibold">Type</th>
+            <th class="text-left p-3 font-semibold">Required</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">id</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">✓</td>
+            <td class="p-3">Identificador único da ação</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">icon</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">✓</td>
+            <td class="p-3">Caminho para o ícone SVG</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">label</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">-</td>
+            <td class="p-3">Label/tooltip da ação</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">active</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3">-</td>
+            <td class="p-3">Define se a ação está ativa (estilo laranja)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">disabled</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3">-</td>
+            <td class="p-3">Desabilita a ação</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Accessibility -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Accessibility</h2>
+    <div class="bg-muted/50 p-4 rounded-lg space-y-2">
+      <p class="text-sm">
+        <strong>Keyboard:</strong> Todos os botões são focáveis e ativáveis com Enter/Space
+      </p>
+      <p class="text-sm">
+        <strong>ARIA:</strong> Labels apropriados aplicados via aria-label e title
+      </p>
+      <p class="text-sm">
+        <strong>Focus:</strong> Anel de foco visível usando var(--ring)
+      </p>
+      <p class="text-sm">
+        <strong>Screen Readers:</strong> Ícones têm alt text descritivo
+      </p>
+    </div>
+  </section>
+</div>

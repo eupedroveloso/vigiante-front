@@ -1,0 +1,135 @@
+<div class="p-8 space-y-12 max-w-7xl mx-auto">
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Project Tabs</h1>
+    <p class="text-muted-foreground text-lg">
+      Abas de projeto no topo da aplicação, com botão home, aba ativa em destaque e opção de fechar.
+    </p>
+  </header>
+
+  <!-- Import -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Import</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+import {{ '{' }} ProjectTabsComponent {{ '}' }} from '@/shared/components/project-tabs/project-tabs.component';
+
+@@Component({{ '{' }}
+  imports: [ProjectTabsComponent]
+{{ '}' }})
+    </code></pre>
+  </section>
+
+  <!-- Default -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Exemplo padrão</h2>
+      <p class="text-muted-foreground">Barra de abas com home, abas ativa/inativas e fechar na aba ativa.</p>
+    </div>
+    <div class="border border-border rounded-lg overflow-hidden">
+      <app-project-tabs
+        [showHome]="true"
+        [tabs]="tabs()"
+        [activeIndex]="activeIndex()"
+        [showAddButton]="true"
+        variant="dark"
+        (tabSelect)="onTabSelect($event)"
+        (tabClose)="onTabClose($event)"
+        (tabAdd)="onTabAdd()"
+        (homeClick)="onHomeClick()"
+      />
+    </div>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+&lt;app-project-tabs
+  [showHome]="true"
+  [tabs]="tabs"
+  [activeIndex]="activeIndex()"
+  [showAddButton]="true"
+  (tabSelect)="onTabSelect($event)"
+  (tabClose)="onTabClose($event)"
+  (tabAdd)="onTabAdd()"
+  (homeClick)="onHomeClick()"
+/&gt;
+    </code></pre>
+  </section>
+
+  <!-- Without home -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Sem botão home</h2>
+      <p class="text-muted-foreground">Apenas as abas.</p>
+    </div>
+    <div class="border border-border rounded-lg overflow-hidden">
+      <app-project-tabs
+        [showHome]="false"
+        [tabs]="tabs()"
+        [activeIndex]="activeIndex()"
+        (tabSelect)="onTabSelect($event)"
+      />
+    </div>
+  </section>
+
+  <!-- Props -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Props</h2>
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Prop</th>
+            <th class="text-left p-3 font-semibold">Type</th>
+            <th class="text-left p-3 font-semibold">Default</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t"><td class="p-3"><code class="text-sm">showHome</code></td><td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td><td class="p-3"><code class="text-sm">true</code></td><td class="p-3">Exibe o botão home e o separador</td></tr>
+          <tr class="border-t"><td class="p-3"><code class="text-sm">tabs</code></td><td class="p-3"><code class="text-sm text-muted-foreground">ProjectTab[]</code></td><td class="p-3"><code class="text-sm">[]</code></td><td class="p-3">Lista de abas</td></tr>
+          <tr class="border-t"><td class="p-3"><code class="text-sm">activeIndex</code></td><td class="p-3"><code class="text-sm text-muted-foreground">number</code></td><td class="p-3"><code class="text-sm">0</code></td><td class="p-3">Índice da aba ativa (0-based)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Events</h2>
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Event</th>
+            <th class="text-left p-3 font-semibold">Payload</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t"><td class="p-3"><code class="text-sm">tabSelect</code></td><td class="p-3"><code class="text-sm text-muted-foreground">string</code></td><td class="p-3">Id da aba selecionada</td></tr>
+          <tr class="border-t"><td class="p-3"><code class="text-sm">tabClose</code></td><td class="p-3"><code class="text-sm text-muted-foreground">string</code></td><td class="p-3">Id da aba fechada</td></tr>
+          <tr class="border-t"><td class="p-3"><code class="text-sm">homeClick</code></td><td class="p-3"><code class="text-sm text-muted-foreground">void</code></td><td class="p-3">Clique no botão home</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ProjectTab interface -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">ProjectTab</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+export interface ProjectTab {{ '{' }}
+  id: string;
+  label: string;
+  icon?: string;
+  closable?: boolean;
+{{ '}' }}
+    </code></pre>
+  </section>
+
+  <!-- Accessibility -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Acessibilidade</h2>
+    <div class="bg-muted/50 p-4 rounded-lg space-y-2 text-sm">
+      <p><strong>Teclado:</strong> Abas focáveis e ativáveis com Enter/Space.</p>
+      <p><strong>ARIA:</strong> role="tab" e aria-selected no estado ativo.</p>
+      <p><strong>Foco:</strong> Ordem de tabulação e anel de foco visível.</p>
+    </div>
+  </section>
+</div>

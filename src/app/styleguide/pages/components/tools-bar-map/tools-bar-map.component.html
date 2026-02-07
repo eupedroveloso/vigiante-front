@@ -1,0 +1,123 @@
+<div class="p-8 space-y-12 max-w-7xl mx-auto">
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Tools Bar Map</h1>
+    <p class="text-muted-foreground text-lg">
+      Barra de ferramentas do mapa com sequência fixa: menu (bars), mode-tool (mapa/lista), borda interna, desenhar polígono, desenhar círculo e camadas.
+    </p>
+  </header>
+
+  <!-- Import -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Import</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+import {{ '{' }} ToolsBarMapComponent {{ '}' }} from '@/shared/components/tools-bar-map/tools-bar-map.component';
+
+@@Component({{ '{' }}
+  imports: [ToolsBarMapComponent]
+{{ '}' }})
+    </code></pre>
+  </section>
+
+  <!-- Exemplo -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Exemplo</h2>
+      <p class="text-muted-foreground">Sequência: bars → mode-tool → border-inner → draw-polygon → draw-circle → layer-group.</p>
+    </div>
+    <div class="border border-border rounded-lg overflow-hidden bg-card">
+      <app-tools-bar-map
+        [modeToolOptions]="modeOptions"
+        [modeToolValue]="modeValue()"
+        (menuClick)="onMenuClick()"
+        (toolClick)="onToolClick($event)"
+        (modeChange)="onModeChange($event)"
+      />
+    </div>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+&lt;app-tools-bar-map
+  [modeToolOptions]="modeOptions"
+  [modeToolValue]="modeValue()"
+  (menuClick)="onMenuClick()"
+  (toolClick)="onToolClick($event)"
+  (modeChange)="onModeChange($event)"
+/&gt;
+    </code></pre>
+  </section>
+
+  <!-- Props -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Props</h2>
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Prop</th>
+            <th class="text-left p-3 font-semibold">Type</th>
+            <th class="text-left p-3 font-semibold">Default</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">modeToolValue</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">''</code></td>
+            <td class="p-3">Valor selecionado no mode-tool (ex: 'map', 'list')</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">modeToolOptions</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">ModeToolOption[]</code></td>
+            <td class="p-3"><code class="text-sm">[]</code></td>
+            <td class="p-3">Opções do mode-tool (mapa, lista)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Events</h2>
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Event</th>
+            <th class="text-left p-3 font-semibold">Payload</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">menuClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">void</code></td>
+            <td class="p-3">Clique no botão menu (bars)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">toolClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">Clique em uma ferramenta: 'border-inner' | 'draw-polygon' | 'draw-circle' | 'layer-group'</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">modeChange</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">Mudança de modo no mode-tool (map/list)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Sequência dos botões -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Sequência dos botões</h2>
+    <ol class="list-decimal list-inside space-y-2 text-muted-foreground">
+      <li><code class="text-foreground">bars.svg</code> — Menu</li>
+      <li><code class="text-foreground">app-mode-tool</code> — Seletor mapa/lista</li>
+      <li><code class="text-foreground">border-inner.svg</code> — Borda interna</li>
+      <li><code class="text-foreground">draw-polygon.svg</code> — Desenhar polígono</li>
+      <li><code class="text-foreground">draw-circle.svg</code> — Desenhar círculo</li>
+      <li><code class="text-foreground">layer-group.svg</code> — Camadas</li>
+    </ol>
+  </section>
+</div>

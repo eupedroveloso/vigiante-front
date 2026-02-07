@@ -1,0 +1,162 @@
+/* Tailwind CSS v4 Layers */
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+
+@layer theme {
+  :root {
+    --color-success: var(--success);
+    --color-warning: var(--warning);
+    --color-info: var(--info);
+    --color-destructive: var(--destructive);
+  }
+}
+
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
+/* Spartan UI Preset */
+@import "@spartan-ng/brain/hlm-tailwind-preset.css";
+
+@layer base {
+  :root {
+    /* === BASE === */
+    --font-sans: 'Geist Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --background: oklch(100% 0 0); /* Branco puro */
+    --foreground: oklch(0.145 0 0); /* Cinza muito escuro #212121 */
+
+    /* === CARD === */
+    --card: oklch(100% 0 0); /* Branco */
+    --card-foreground: oklch(0.145 0 0); /* Cinza muito escuro */
+
+    /* === POPOVER / DROPDOWN / TOOLTIP === */
+    --popover: oklch(100% 0 0); /* Branco */
+    --popover-foreground: oklch(0.145 0 0); /* Cinza muito escuro */
+
+    /* === PRIMARY (Tom 400 da escala baseada em #FF5B04) === */
+    --primary: oklch(68% 0.23 38.5); /* Tom 400 - Laranja-avermelhado */
+    --primary-foreground: oklch(0.985 0 0); /* Quase branco para contraste */
+
+    /* === SECONDARY === */
+    --secondary: oklch(0.97 0 0); /* Cinza muito claro #F5F5F5 */
+    --secondary-foreground: oklch(0.205 0 0); /* Cinza escuro */
+
+    /* === MUTED === */
+    --muted: oklch(0.97 0 0); /* Cinza claro para fundos */
+    --muted-foreground: oklch(0.556 0 0); /* Cinza médio #757575 */
+
+    /* === ACCENT === */
+    --accent: oklch(0.97 0 0); /* Similar ao secondary */
+    --accent-foreground: oklch(0.205 0 0); /* Cinza escuro */
+
+    /* === DESTRUCTIVE === */
+    --destructive: oklch(59% 0.25 12); /* Vermelho #fb2c36 */
+    --destructive-foreground: oklch(0.985 0 0); /* Branco */
+
+    /* === BORDERS & INPUTS === */
+    --border: oklch(90% 0 0); /* Cinza claro #E5E5E5 */
+    --input: oklch(90% 0 0); /* Similar à borda */
+    --ring: oklch(68% 0.23 38.5); /* Laranja primário para anéis de foco */
+
+    /* === BORDER RADIUS === */
+    --radius: 0.625rem; /* 10px - arredondado médio */
+
+    /* === CHART COLORS === */
+    --chart-1: oklch(68% 0.23 38.5); /* Primary */
+    --chart-2: oklch(64% 0.20 242); /* Azul Info #2b7fff */
+    --chart-3: oklch(72% 0.22 142); /* Verde Success #7ccf00 */
+    --chart-4: oklch(72% 0.19 70); /* Amarelo Warning #efb100 */
+    --chart-5: oklch(59% 0.25 12); /* Vermelho Destructive #fb2c36 */
+
+    /* === SIDEBAR === */
+    --sidebar: oklch(100% 0 0); /* Branco */
+    --sidebar-foreground: oklch(0.145 0 0); /* Cinza muito escuro */
+    --sidebar-primary: oklch(68% 0.23 38.5); /* Laranja primário */
+    --sidebar-primary-foreground: oklch(0.985 0 0); /* Branco */
+    --sidebar-accent: oklch(0.97 0 0); /* Cinza claro */
+    --sidebar-accent-foreground: oklch(0.205 0 0); /* Cinza escuro */
+    --sidebar-border: oklch(90% 0 0); /* Cinza claro #E5E5E5 */
+    --sidebar-ring: oklch(68% 0.23 38.5); /* Laranja primário */
+
+    /* === CUSTOM SEMANTIC COLORS === */
+    --success: oklch(72% 0.22 142); /* Verde #7ccf00 */
+    --success-foreground: oklch(0.145 0 0); /* Escuro para contraste */
+    --warning: oklch(72% 0.19 70); /* Amarelo #efb100 */
+    --warning-foreground: oklch(0.145 0 0); /* Escuro para contraste */
+    --info: oklch(64% 0.20 242); /* Azul #2b7fff */
+    --info-foreground: oklch(0.985 0 0); /* Branco */
+  }
+
+  .dark {
+    color-scheme: dark;
+    /* === BASE === */
+    --background: oklch(20% 0 0); /* Fundo escuro suave */
+    --foreground: oklch(95% 0 0); /* Texto claro */
+
+    /* === CARD === */
+    --card: oklch(25% 0 0); /* Card escuro suave */
+    --card-foreground: oklch(95% 0 0); /* Texto claro */
+
+    /* === POPOVER === */
+    --popover: oklch(25% 0 0); /* Popover escuro suave */
+    --popover-foreground: oklch(95% 0 0); /* Texto claro */
+
+    /* === PRIMARY === */
+    --primary: oklch(68% 0.23 38.5); /* Laranja tom 400 (mesmo do light) */
+    --primary-foreground: oklch(0.985 0 0); /* Texto claro no primário */
+
+    /* === SECONDARY === */
+    --secondary: oklch(30% 0 0); /* Secundário escuro suave */
+    --secondary-foreground: oklch(95% 0 0); /* Texto claro */
+
+    /* === MUTED === */
+    --muted: oklch(30% 0 0); /* Muted escuro suave */
+    --muted-foreground: oklch(75% 0 0); /* Texto muted claro */
+
+    /* === ACCENT === */
+    --accent: oklch(30% 0 0); /* Accent escuro suave */
+    --accent-foreground: oklch(95% 0 0); /* Texto claro */
+
+    /* === DESTRUCTIVE === */
+    --destructive: oklch(59% 0.25 12); /* Vermelho #fb2c36 */
+    --destructive-foreground: oklch(0.985 0 0); /* Branco */
+
+    /* === BORDERS & INPUTS === */
+    --border: oklch(35% 0 0); /* Borda escura suave */
+    --input: oklch(35% 0 0); /* Input border escuro suave */
+    --ring: oklch(68% 0.23 38.5); /* Laranja primário para anel */
+
+    /* === CHART COLORS === */
+    --chart-1: oklch(68% 0.23 38.5); /* Primary */
+    --chart-2: oklch(64% 0.20 242); /* Azul Info #2b7fff */
+    --chart-3: oklch(72% 0.22 142); /* Verde Success #7ccf00 */
+    --chart-4: oklch(72% 0.19 70); /* Amarelo Warning #efb100 */
+    --chart-5: oklch(59% 0.25 12); /* Vermelho Destructive #fb2c36 */
+
+    /* === SIDEBAR === */
+    --sidebar: oklch(25% 0 0); /* Sidebar escura suave */
+    --sidebar-foreground: oklch(95% 0 0); /* Texto claro */
+    --sidebar-primary: oklch(68% 0.23 38.5); /* Laranja primário */
+    --sidebar-primary-foreground: oklch(0.985 0 0); /* Texto claro */
+    --sidebar-accent: oklch(30% 0 0); /* Accent escuro suave */
+    --sidebar-accent-foreground: oklch(95% 0 0); /* Texto claro */
+    --sidebar-border: oklch(35% 0 0); /* Borda escura suave */
+    --sidebar-ring: oklch(68% 0.23 38.5); /* Laranja primário */
+
+    /* === CUSTOM SEMANTIC COLORS === */
+    --success: oklch(72% 0.22 142); /* Verde #7ccf00 */
+    --success-foreground: oklch(0.145 0 0); /* Escuro para contraste */
+    --warning: oklch(72% 0.19 70); /* Amarelo #efb100 */
+    --warning-foreground: oklch(0.145 0 0); /* Escuro para contraste */
+    --info: oklch(64% 0.20 242); /* Azul #2b7fff */
+    --info-foreground: oklch(0.985 0 0); /* Branco */
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* You can add global styles to this file, and also import other style files */

@@ -1,0 +1,95 @@
+<div
+  class="flex items-center gap-3 min-h-[48px] shrink-0"
+  [ngClass]="{
+    'w-full bg-card border-b border-border px-3 py-2': !embedded(),
+    'flex-1 min-w-0': embedded()
+  }"
+>
+  <!-- 1. Menu (bars) -->
+  <button
+    type="button"
+    (click)="onMenuClick()"
+    class="p-2 rounded-md hover:bg-muted transition-colors flex items-center justify-center shrink-0"
+    aria-label="Menu"
+  >
+    <img [src]="icon('bars.svg')" alt="Menu" class="w-5 h-5" />
+  </button>
+
+  <div class="w-px self-stretch shrink-0 bg-border" aria-hidden="true"></div>
+
+  <!-- 2. Mode Tool (mapa / lista) -->
+  @if (modeToolOptions().length > 0) {
+    <app-mode-tool
+      [options]="modeToolOptions()"
+      [value]="modeToolValue()"
+      (valueChange)="onModeChange($event)"
+      class="shrink-0"
+    />
+  }
+
+  <!-- 3. Location Plus (sempre primary, ícone branco) -->
+  <button
+    type="button"
+    (click)="onToolClick('location-plus')"
+    class="p-2 rounded-md transition-colors flex items-center justify-center min-w-[40px] h-10 shrink-0 bg-primary text-primary-foreground hover:opacity-90"
+    aria-label="Adicionar local"
+  >
+    <img [src]="icon('location-plus.svg')" alt="Adicionar local" class="w-5 h-5 brightness-0 invert" />
+  </button>
+
+  <!-- 4. Borda interna -->
+  <button
+    type="button"
+    (click)="onToolClick('border-inner')"
+    class="p-2 rounded-md transition-colors flex items-center justify-center min-w-[40px] h-10 shrink-0"
+    [class.bg-muted]="activeToolId() === 'border-inner'"
+    [class.text-foreground]="activeToolId() === 'border-inner'"
+    [class.bg-background]="activeToolId() !== 'border-inner'"
+    [class.hover:bg-muted]="activeToolId() !== 'border-inner'"
+    aria-label="Borda interna"
+  >
+    <img [src]="icon('border-inner.svg')" alt="Borda interna" class="w-5 h-5" />
+  </button>
+
+  <!-- 5. Draw Polygon -->
+  <button
+    type="button"
+    (click)="onToolClick('draw-polygon')"
+    class="p-2 rounded-md transition-colors flex items-center justify-center min-w-[40px] h-10 shrink-0"
+    [class.bg-muted]="activeToolId() === 'draw-polygon'"
+    [class.text-foreground]="activeToolId() === 'draw-polygon'"
+    [class.bg-background]="activeToolId() !== 'draw-polygon'"
+    [class.hover:bg-muted]="activeToolId() !== 'draw-polygon'"
+    aria-label="Desenhar polígono"
+  >
+    <img [src]="icon('draw-polygon.svg')" alt="Desenhar polígono" class="w-5 h-5" />
+  </button>
+
+  <!-- 6. Draw Circle -->
+  <button
+    type="button"
+    (click)="onToolClick('draw-circle')"
+    class="p-2 rounded-md transition-colors flex items-center justify-center min-w-[40px] h-10 shrink-0"
+    [class.bg-muted]="activeToolId() === 'draw-circle'"
+    [class.text-foreground]="activeToolId() === 'draw-circle'"
+    [class.bg-background]="activeToolId() !== 'draw-circle'"
+    [class.hover:bg-muted]="activeToolId() !== 'draw-circle'"
+    aria-label="Desenhar círculo"
+  >
+    <img [src]="icon('draw-circle.svg')" alt="Desenhar círculo" class="w-5 h-5" />
+  </button>
+
+  <!-- 7. Layer Group -->
+  <button
+    type="button"
+    (click)="onToolClick('layer-group')"
+    class="p-2 rounded-md transition-colors flex items-center justify-center min-w-[40px] h-10 shrink-0"
+    [class.bg-muted]="activeToolId() === 'layer-group'"
+    [class.text-foreground]="activeToolId() === 'layer-group'"
+    [class.bg-background]="activeToolId() !== 'layer-group'"
+    [class.hover:bg-muted]="activeToolId() !== 'layer-group'"
+    aria-label="Camadas"
+  >
+    <img [src]="icon('layer-group.svg')" alt="Camadas" class="w-5 h-5" />
+  </button>
+</div>

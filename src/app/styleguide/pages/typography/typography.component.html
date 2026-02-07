@@ -1,0 +1,232 @@
+<div class="p-8 space-y-8 max-w-7xl mx-auto">
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Tipografia</h1>
+    <p class="text-muted-foreground text-lg">
+      Hierarquia tipográfica, pesos e informações da família Geist Sans.
+    </p>
+  </header>
+
+  <!-- Tabs Navigation -->
+  <div class="border-b border-border">
+    <nav class="flex gap-2">
+      <button
+        (click)="setTab('hierarchy')"
+        [class.border-b-2]="activeTab() === 'hierarchy'"
+        [class.border-primary]="activeTab() === 'hierarchy'"
+        [class.text-primary]="activeTab() === 'hierarchy'"
+        [class.text-muted-foreground]="activeTab() !== 'hierarchy'"
+        class="px-4 py-2 font-medium transition-colors hover:text-foreground"
+      >
+        Hierarquia
+      </button>
+      <button
+        (click)="setTab('weights')"
+        [class.border-b-2]="activeTab() === 'weights'"
+        [class.border-primary]="activeTab() === 'weights'"
+        [class.text-primary]="activeTab() === 'weights'"
+        [class.text-muted-foreground]="activeTab() !== 'weights'"
+        class="px-4 py-2 font-medium transition-colors hover:text-foreground"
+      >
+        Pesos
+      </button>
+      <button
+        (click)="setTab('family')"
+        [class.border-b-2]="activeTab() === 'family'"
+        [class.border-primary]="activeTab() === 'family'"
+        [class.text-primary]="activeTab() === 'family'"
+        [class.text-muted-foreground]="activeTab() !== 'family'"
+        class="px-4 py-2 font-medium transition-colors hover:text-foreground"
+      >
+        Família
+      </button>
+    </nav>
+  </div>
+
+  <!-- Tab: Hierarchy -->
+  @if (activeTab() === 'hierarchy') {
+    <div class="space-y-6 pt-6">
+      <div class="bg-card border border-border rounded-lg p-6">
+        <h2 class="text-lg font-semibold mb-4">Hierarquia Tipográfica</h2>
+        <p class="text-sm text-muted-foreground mb-6">
+          Todos os níveis de hierarquia disponíveis no sistema de design, com tamanhos, pesos e casos de uso.
+        </p>
+        <div class="space-y-6">
+          @for (hierarchy of typographyHierarchy; track hierarchy.level) {
+            <div class="border-l-4 border-primary pl-6 py-4 bg-background rounded-r-lg">
+              <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-3">
+                <div>
+                  <div class="flex items-center gap-3 mb-2">
+                    <span class="text-sm font-semibold text-muted-foreground">{{ hierarchy.level }}</span>
+                    <span [ngClass]="hierarchy.cssClass" class="text-foreground">
+                      {{ getHierarchyLabel(hierarchy) }}
+                    </span>
+                  </div>
+                  <p class="text-sm text-muted-foreground">{{ hierarchy.useCase }}</p>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                <div>
+                  <span class="text-xs text-muted-foreground block mb-1">Tamanho</span>
+                  <code class="text-xs bg-muted px-2 py-1 rounded">{{ hierarchy.fontSize }} ({{ hierarchy.fontSizePx }})</code>
+                </div>
+                <div>
+                  <span class="text-xs text-muted-foreground block mb-1">Altura da Linha</span>
+                  <code class="text-xs bg-muted px-2 py-1 rounded">{{ hierarchy.lineHeight }}</code>
+                </div>
+                <div>
+                  <span class="text-xs text-muted-foreground block mb-1">Peso</span>
+                  <code class="text-xs bg-muted px-2 py-1 rounded">{{ hierarchy.fontWeight }} ({{ hierarchy.fontWeightName }})</code>
+                </div>
+                <div>
+                  <span class="text-xs text-muted-foreground block mb-1">Classe CSS</span>
+                  <code class="text-xs bg-muted px-2 py-1 rounded break-all">{{ hierarchy.cssClass }}</code>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Tab: Weights -->
+  @if (activeTab() === 'weights') {
+    <div class="space-y-6 pt-6">
+      <div class="bg-card border border-border rounded-lg p-6">
+        <h2 class="text-lg font-semibold mb-4">Pesos da Fonte</h2>
+        <p class="text-sm text-muted-foreground mb-6">
+          Todos os pesos disponíveis na família Geist Sans, de 100 (Thin) a 900 (Black).
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          @for (weight of fontWeights; track weight.weight) {
+            <div class="border border-border rounded-lg p-4 bg-background">
+              <div class="flex items-center justify-between mb-3">
+                <div>
+                  <h3 class="font-semibold text-lg" [ngClass]="weight.cssClass">{{ weight.name }}</h3>
+                  <p class="text-xs text-muted-foreground mt-1">Peso: {{ weight.weight }}</p>
+                </div>
+                <span class="text-2xl font-bold text-primary">{{ weight.weight }}</span>
+              </div>
+              <p class="text-sm text-muted-foreground mb-3">{{ weight.description }}</p>
+              <div class="space-y-2">
+                <code class="text-xs bg-muted px-2 py-1 rounded block">font-weight: {{ weight.weight }}</code>
+                <code class="text-xs bg-muted px-2 py-1 rounded block">{{ weight.cssClass }}</code>
+              </div>
+              <div class="mt-4 pt-4 border-t border-border">
+                <p class="text-sm" [ngClass]="weight.cssClass">A raposa rápida pula sobre o cão preguiçoso.</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Tab: Family -->
+  @if (activeTab() === 'family') {
+    <div class="space-y-6 pt-6">
+      <div class="bg-card border border-border rounded-lg p-6">
+        <div class="mb-6">
+          <h2 class="text-2xl font-bold mb-2" style="font-family: var(--font-sans);">{{ fontFamilyInfo.name }}</h2>
+          <p class="text-muted-foreground">{{ fontFamilyInfo.description }}</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <h3 class="font-semibold mb-3">Informações</h3>
+            <dl class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <dt class="text-muted-foreground">Designer:</dt>
+                <dd class="font-medium">{{ fontFamilyInfo.designer }}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-muted-foreground">Provedor:</dt>
+                <dd class="font-medium">{{ fontFamilyInfo.provider }}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-muted-foreground">Licença:</dt>
+                <dd class="font-medium">{{ fontFamilyInfo.license }}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt class="text-muted-foreground">Pesos:</dt>
+                <dd class="font-medium">9 (100-900)</dd>
+              </div>
+            </dl>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-3">Características</h3>
+            <ul class="space-y-2 text-sm">
+              @for (feature of fontFamilyInfo.features; track feature) {
+                <li class="flex items-start gap-2">
+                  <span class="text-primary mt-0.5">✓</span>
+                  <span>{{ feature }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-border pt-6 space-y-4">
+          <div>
+            <h3 class="font-semibold mb-3">Variável CSS</h3>
+            <code class="block bg-muted p-3 rounded text-sm break-all">
+              {{ fontFamilyInfo.cssVariable }}: {{ fontFamilyInfo.cssValue }}
+            </code>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-3">Font Stack (Fallbacks)</h3>
+            <div class="flex flex-wrap gap-2">
+              @for (fallback of fontFamilyInfo.fallbacks; track fallback) {
+                <code class="bg-muted px-2 py-1 rounded text-xs">{{ fallback }}</code>
+              }
+            </div>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-3">Uso no CSS</h3>
+            <div class="bg-muted p-4 rounded space-y-2 text-sm font-mono">
+              <div>
+                <span class="text-muted-foreground">/* Variável CSS */</span><br>
+                <span class="text-primary">font-family:</span> <span class="text-foreground">var(--font-sans);</span>
+              </div>
+              <div class="pt-2 border-t border-border">
+                <span class="text-muted-foreground">/* Tailwind CSS */</span><br>
+                <span class="text-primary">class</span><span class="text-foreground">="font-sans"</span>
+              </div>
+              <div class="pt-2 border-t border-border">
+                <span class="text-muted-foreground">/* Direto */</span><br>
+                <span class="text-primary">font-family:</span> <span class="text-foreground">'Geist Sans', sans-serif;</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h3 class="font-semibold mb-3">Link</h3>
+            <a [href]="fontFamilyInfo.link" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline text-sm">
+              {{ fontFamilyInfo.link }}
+            </a>
+          </div>
+        </div>
+        <div class="border-t border-border pt-6 mt-6">
+          <h3 class="font-semibold mb-4">Preview da Família</h3>
+          <div class="space-y-4">
+            <div class="p-4 bg-background rounded-lg border border-border">
+              <p class="text-xs text-muted-foreground mb-2">Todos os pesos (100-900)</p>
+              <div class="space-y-1">
+                @for (weight of fontWeights; track weight.weight) {
+                  <p [ngClass]="weight.cssClass" class="text-base">
+                    {{ weight.weight }} - {{ weight.name }}: A raposa rápida pula sobre o cão preguiçoso.
+                  </p>
+                }
+              </div>
+            </div>
+            <div class="p-4 bg-background rounded-lg border border-border">
+              <p class="text-xs text-muted-foreground mb-2">Hierarquia completa</p>
+              <div class="space-y-2">
+                @for (hierarchy of typographyHierarchy; track hierarchy.level) {
+                  <p [ngClass]="hierarchy.cssClass">{{ hierarchy.level }}: {{ hierarchy.useCase }}</p>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

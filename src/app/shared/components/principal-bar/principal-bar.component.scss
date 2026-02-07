@@ -1,0 +1,9 @@
+// Project-tabs inline na barra: altura alinhada
+.principal-bar__project-tabs app-project-tabs {
+  display: block;
+  min-height: 40px;
+}
+
+.principal-bar__project-tabs app-project-tabs > div {
+  min-height: 40px;
+}

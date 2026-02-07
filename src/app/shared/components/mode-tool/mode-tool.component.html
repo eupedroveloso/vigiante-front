@@ -1,0 +1,27 @@
+<div
+  class="inline-flex rounded-lg border border-border bg-muted p-0.5 gap-0"
+  role="group"
+  aria-label="Modo de visualização"
+>
+  @for (option of options(); track option.id) {
+    <button
+      type="button"
+      (click)="select(option)"
+      [disabled]="disabled()"
+      [attr.aria-pressed]="isSelected(option)"
+      [attr.aria-label]="option.label ?? option.id"
+      [title]="option.label ?? option.id"
+      class="flex items-center justify-center w-10 h-10 rounded-md border transition-colors shrink-0 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      [ngClass]="{
+        'bg-card border-border text-primary': isSelected(option),
+        'bg-transparent border-transparent text-muted-foreground hover:bg-muted/80 hover:text-foreground': !isSelected(option)
+      }"
+    >
+      <img
+        [src]="option.icon"
+        [alt]="option.label ?? option.id"
+        class="w-5 h-5 pointer-events-none"
+      />
+    </button>
+  }
+</div>

@@ -1,0 +1,127 @@
+<div class="p-8 space-y-12 max-w-7xl mx-auto">
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Breadcrumb</h1>
+    <p class="text-muted-foreground text-lg">
+      Navegação estrutural que indica a localização atual na hierarquia. Suporta links, truncamento com reticências e indicador de dropdown, conforme design do Figma (ViconSaga).
+    </p>
+  </header>
+
+  <!-- Import -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Import</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+import {{ '{' }} BreadcrumbComponent, BreadcrumbItem {{ '}' }} from '@/shared/components/breadcrumb/breadcrumb.component';
+
+@@Component({{ '{' }}
+  imports: [BreadcrumbComponent]
+{{ '}' }})
+    </code></pre>
+  </section>
+
+  <!-- Design Figma (3 exemplos iguais) -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Design Figma (ViconSaga)</h2>
+      <p class="text-muted-foreground">
+        Três exemplos conforme especificação: Breadcrumb (link) &gt; ... &gt; Breadcrumb ⌄ (dropdown) &gt; Breadcrumb (página atual, negrito).
+      </p>
+    </div>
+    <div class="space-y-6">
+      <app-breadcrumb [items]="figmaExampleItems" />
+      <app-breadcrumb [items]="figmaExampleItems" />
+      <app-breadcrumb [items]="figmaExampleItems" />
+    </div>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+const items: BreadcrumbItem[] = [
+  {{ '{' }} label: 'Breadcrumb', routerLink: '/styleguide' {{ '}' }},
+  {{ '{' }} ellipsis: true {{ '}' }},
+  {{ '{' }} label: 'Breadcrumb', routerLink: '/styleguide/icons', showDropdown: true {{ '}' }},
+  {{ '{' }} label: 'Breadcrumb' {{ '}' }}
+];
+
+&lt;app-breadcrumb [items]="items" /&gt;
+    </code></pre>
+  </section>
+
+  <!-- Exemplo simples -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Exemplo simples</h2>
+      <p class="text-muted-foreground">Sem ellipsis nem dropdown.</p>
+    </div>
+    <app-breadcrumb [items]="simpleItems" />
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+&lt;app-breadcrumb [items]="simpleItems" /&gt;
+    </code></pre>
+  </section>
+
+  <!-- Exemplo com vários níveis -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Vários níveis com ellipsis e dropdown</h2>
+      <p class="text-muted-foreground">Hierarquia longa com truncamento e item com submenu.</p>
+    </div>
+    <app-breadcrumb [items]="deepItems" />
+  </section>
+
+  <!-- Props -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Props</h2>
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Prop</th>
+            <th class="text-left p-3 font-semibold">Type</th>
+            <th class="text-left p-3 font-semibold">Default</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">items</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">BreadcrumbItem[]</code></td>
+            <td class="p-3">—</td>
+            <td class="p-3">Lista de itens (label, routerLink?, showDropdown?, ellipsis?)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">ariaLabel</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">'breadcrumb'</code></td>
+            <td class="p-3">aria-label do container de navegação</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BreadcrumbItem -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">BreadcrumbItem</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+export interface BreadcrumbItem {{ '{' }}
+  label?: string;
+  routerLink?: string | string[];
+  showDropdown?: boolean;
+  ellipsis?: boolean;
+{{ '}' }}
+    </code></pre>
+    <ul class="list-disc list-inside text-muted-foreground space-y-1 text-sm">
+      <li><strong>label</strong> — texto do item (omitir quando ellipsis for true)</li>
+      <li><strong>routerLink</strong> — se omitido, o item é a página atual (último, em negrito)</li>
+      <li><strong>showDropdown</strong> — exibe ícone de chevron down ao lado do item</li>
+      <li><strong>ellipsis</strong> — renderiza reticências (...) no lugar do item</li>
+    </ul>
+  </section>
+
+  <!-- Accessibility -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Acessibilidade</h2>
+    <div class="bg-muted/50 p-4 rounded-lg space-y-2 text-sm">
+      <p><strong>Navegação:</strong> role="navigation", aria-label configurável</p>
+      <p><strong>Página atual:</strong> aria-current="page" e aria-disabled="true" no último item</p>
+      <p><strong>Ellipsis:</strong> texto apenas para leitores de tela (sr-only) descrevendo "Mais níveis"</p>
+      <p><strong>Separador:</strong> aria-hidden="true", role="presentation" para não poluir leitura</p>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,167 @@
+<div class="p-8 space-y-12 max-w-7xl mx-auto">
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Map Control</h1>
+    <p class="text-muted-foreground text-lg">
+      Painel vertical de controles de mapa (Figma ViconSaga 616-7299): tela cheia, zoom in/out, Street View e miniatura do mapa base.
+    </p>
+  </header>
+
+  <!-- Import -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Import</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+import {{ '{' }} MapControlComponent {{ '}' }} from '@/shared/components/map-control/map-control.component';
+
+@@Component({{ '{' }}
+  imports: [MapControlComponent]
+{{ '}' }})
+    </code></pre>
+  </section>
+
+  <!-- Exemplo -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Exemplo</h2>
+      <p class="text-muted-foreground">Painel flutuante sobre fundo escuro, como no mapa.</p>
+    </div>
+    <div class="rounded-xl bg-[#2a2a2a] min-h-[320px] flex items-start justify-end p-6">
+      <app-map-control
+        (fullscreenClick)="onFullscreenClick()"
+        (zoomInClick)="onZoomInClick()"
+        (zoomOutClick)="onZoomOutClick()"
+        (streetViewClick)="onStreetViewClick()"
+        (baseMapThumbnailClick)="onBaseMapThumbnailClick()"
+        [baseMapThumbnailUrl]="thumbnailUrl"
+      />
+    </div>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+&lt;app-map-control
+  (fullscreenClick)="onFullscreenClick()"
+  (zoomInClick)="onZoomInClick()"
+  (zoomOutClick)="onZoomOutClick()"
+  (streetViewClick)="onStreetViewClick()"
+  (baseMapThumbnailClick)="onBaseMapThumbnailClick()"
+  [baseMapThumbnailUrl]="thumbnailUrl"
+/&gt;
+    </code></pre>
+  </section>
+
+  <!-- Sem miniatura customizada -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Sem miniatura (placeholder)</h2>
+      <p class="text-muted-foreground">Quando baseMapThumbnailUrl não é passado, é exibido um placeholder com ícone de mapa.</p>
+    </div>
+    <div class="rounded-xl bg-[#2a2a2a] min-h-[280px] flex items-start justify-end p-6">
+      <app-map-control
+        (fullscreenClick)="onFullscreenClick()"
+        (zoomInClick)="onZoomInClick()"
+        (zoomOutClick)="onZoomOutClick()"
+        (streetViewClick)="onStreetViewClick()"
+        (baseMapThumbnailClick)="onBaseMapThumbnailClick()"
+      />
+    </div>
+  </section>
+
+  <!-- Props -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Props</h2>
+    <div class="border border-border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Prop</th>
+            <th class="text-left p-3 font-semibold">Type</th>
+            <th class="text-left p-3 font-semibold">Default</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">showFullscreen</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">true</code></td>
+            <td class="p-3">Exibe o botão de tela cheia</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">showZoom</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">true</code></td>
+            <td class="p-3">Exibe os botões de zoom in/out</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">showStreetView</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">true</code></td>
+            <td class="p-3">Exibe o botão Street View (Pegman)</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">showBaseMapThumbnail</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">true</code></td>
+            <td class="p-3">Exibe a área da miniatura do mapa base</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">baseMapThumbnailUrl</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string \| undefined</code></td>
+            <td class="p-3"><code class="text-sm">undefined</code></td>
+            <td class="p-3">URL da imagem da miniatura do mapa base (opcional)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Events</h2>
+    <div class="border border-border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Event</th>
+            <th class="text-left p-3 font-semibold">Payload</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">fullscreenClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">void</code></td>
+            <td class="p-3">Clique no botão tela cheia</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">zoomInClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">void</code></td>
+            <td class="p-3">Clique em aumentar zoom</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">zoomOutClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">void</code></td>
+            <td class="p-3">Clique em diminuir zoom</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">streetViewClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">void</code></td>
+            <td class="p-3">Clique no botão Street View</td>
+          </tr>
+          <tr class="border-t border-border">
+            <td class="p-3"><code class="text-sm">baseMapThumbnailClick</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">void</code></td>
+            <td class="p-3">Clique na miniatura do mapa base</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Acessibilidade -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Acessibilidade</h2>
+    <div class="bg-muted/50 p-4 rounded-lg space-y-2 text-sm">
+      <p><strong>Agrupamento:</strong> role="group" e aria-label="Controles do mapa" no container.</p>
+      <p><strong>Botões:</strong> cada botão possui aria-label descritivo (Tela cheia, Aumentar zoom, Diminuir zoom, Street View, Mapa base).</p>
+      <p><strong>Teclado:</strong> todos os controles são botões focáveis e ativáveis com Enter/Space.</p>
+    </div>
+  </section>
+</div>

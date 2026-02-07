@@ -1,0 +1,40 @@
+// Estilos específicos da página de tokens
+
+// Tab navigation styles
+nav button {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: transparent;
+    transition: background-color 0.2s;
+  }
+  
+  &.border-primary::after {
+    background-color: var(--primary);
+  }
+}
+
+// Color swatch hover effect
+.color-swatch {
+  transition: transform 0.2s, box-shadow 0.2s;
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Theme color preview cards
+.theme-color-card {
+  transition: border-color 0.2s;
+  
+  &:hover {
+    border-color: var(--primary);
+  }
+}

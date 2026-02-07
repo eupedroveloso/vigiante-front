@@ -1,0 +1,496 @@
+<div class="p-8 space-y-12 max-w-7xl mx-auto">
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Design Tokens</h1>
+    <p class="text-muted-foreground text-lg">
+      Sistema de design completo com todas as cores, tipografia e componentes.
+    </p>
+  </header>
+
+  <!-- Color Palette with Tabs -->
+  <section class="space-y-6">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Colors</h2>
+      <p class="text-muted-foreground">Paleta de cores e escalas do sistema.</p>
+    </div>
+
+    <!-- Tabs Navigation -->
+    <div class="border-b border-border">
+      <nav class="flex gap-2">
+        <button
+          (click)="setColorTab('all-colors')"
+          [class.border-b-2]="activeColorTab() === 'all-colors'"
+          [class.border-primary]="activeColorTab() === 'all-colors'"
+          [class.text-primary]="activeColorTab() === 'all-colors'"
+          [class.text-muted-foreground]="activeColorTab() !== 'all-colors'"
+          class="px-4 py-2 font-medium transition-colors hover:text-foreground"
+        >
+          Todas as Cores
+        </button>
+        <button
+          (click)="setColorTab('theme-colors')"
+          [class.border-b-2]="activeColorTab() === 'theme-colors'"
+          [class.border-primary]="activeColorTab() === 'theme-colors'"
+          [class.text-primary]="activeColorTab() === 'theme-colors'"
+          [class.text-muted-foreground]="activeColorTab() !== 'theme-colors'"
+          class="px-4 py-2 font-medium transition-colors hover:text-foreground"
+        >
+          Cores por Tema
+        </button>
+      </nav>
+    </div>
+
+    <!-- Tab Content: All Colors -->
+    @if (activeColorTab() === 'all-colors') {
+      <div class="space-y-12 pt-6">
+        @for (colorScale of colorScales; track colorScale.name) {
+          <div class="space-y-4">
+            <div>
+              <h3 class="text-lg font-semibold mb-1">{{ colorScale.name }} Scale</h3>
+              <p class="text-sm text-muted-foreground">
+                Base: <code class="px-1 py-0.5 bg-muted rounded text-xs">{{ colorScale.baseColor }}</code>
+              </p>
+            </div>
+            <div class="grid grid-cols-5 sm:grid-cols-10 gap-2">
+              @for (shadeItem of colorScale.shades; track shadeItem.shade) {
+                <div class="space-y-1">
+                  <div 
+                    class="h-20 rounded-md flex items-center justify-center relative group"
+                    [style.background-color]="shadeItem.color"
+                    style="border: 1px solid var(--border);"
+                  >
+                    @if (shadeItem.shade === 400 && colorScale.name === 'Primary') {
+                      <span class="text-xs font-semibold px-1 py-0.5 rounded bg-white/90 text-black shadow-sm">400</span>
+                    }
+                    <span class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span 
+                        class="text-xs font-semibold px-2 py-1 rounded shadow-lg"
+                        [style.background-color]="shadeItem.shade <= 400 ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.9)'"
+                        [style.color]="shadeItem.shade <= 400 ? 'white' : 'black'"
+                      >
+                        {{ shadeItem.shade }}
+                      </span>
+                    </span>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs font-medium text-foreground">{{ shadeItem.shade }}</p>
+                    <code class="text-[10px] text-muted-foreground break-all block mt-1">{{ shadeItem.color }}</code>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Tab Content: Theme Colors -->
+    @if (activeColorTab() === 'theme-colors') {
+      <div class="space-y-8 pt-6">
+        <!-- Theme Toggle -->
+        <div class="flex items-center justify-between p-4 bg-card border border-border rounded-lg">
+          <div>
+            <h3 class="font-semibold mb-1">Visualização de Tema</h3>
+            <p class="text-sm text-muted-foreground">
+              Veja como as cores se comportam no modo claro e escuro
+            </p>
+          </div>
+          <button 
+            (click)="toggleTheme()"
+            class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:opacity-90 transition-opacity"
+          >
+            @if (currentTheme() === 'light') {
+              🌙 Ativar Dark Mode
+            } @else {
+              ☀️ Ativar Light Mode
+            }
+          </button>
+        </div>
+
+        <!-- Theme Colors Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          @for (themeColor of themeColors; track themeColor.variable) {
+            <div class="border border-border rounded-lg overflow-hidden bg-card">
+              <div class="p-4 border-b border-border">
+                <h4 class="font-semibold mb-1">{{ themeColor.name }}</h4>
+                <p class="text-sm text-muted-foreground mb-2">{{ themeColor.description }}</p>
+                <code class="text-xs bg-muted px-2 py-1 rounded">{{ themeColor.variable }}</code>
+              </div>
+              <div class="grid grid-cols-2">
+                <!-- Light Mode -->
+                <div class="p-4 border-r border-border">
+                  <div class="mb-2">
+                    <span class="text-xs font-medium text-muted-foreground">Light Mode</span>
+                  </div>
+                  <div 
+                    class="h-16 rounded-md mb-2"
+                    [style.background-color]="getThemeColorValue(themeColor.variable, 'light')"
+                    style="border: 1px solid var(--border);"
+                  ></div>
+                  <code class="text-[10px] text-muted-foreground break-all">
+                    {{ getThemeColorValue(themeColor.variable, 'light') }}
+                  </code>
+                </div>
+                <!-- Dark Mode -->
+                <div class="p-4">
+                  <div class="mb-2">
+                    <span class="text-xs font-medium text-muted-foreground">Dark Mode</span>
+                  </div>
+                  <div 
+                    class="h-16 rounded-md mb-2"
+                    [style.background-color]="getThemeColorValue(themeColor.variable, 'dark')"
+                    [style.border]="'1px solid ' + getThemeColorValue('--border', 'dark')"
+                  ></div>
+                  <code class="text-[10px] text-muted-foreground break-all">
+                    {{ getThemeColorValue(themeColor.variable, 'dark') }}
+                  </code>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Live Preview -->
+        <div class="space-y-4">
+          <h3 class="text-lg font-semibold">Preview ao Vivo</h3>
+          <p class="text-sm text-muted-foreground mb-4">
+            Use o botão acima para alternar entre os temas e ver as mudanças em tempo real.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Card Preview -->
+            <div class="bg-card border border-border rounded-lg p-6">
+              <h4 class="font-semibold text-card-foreground mb-2">Card Example</h4>
+              <p class="text-sm text-muted-foreground mb-4">
+                Este é um exemplo de card usando as variáveis de tema.
+              </p>
+              <button class="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm hover:opacity-90 transition-opacity">
+                Botão Primário
+              </button>
+            </div>
+            <!-- Border Preview -->
+            <div class="border-2 border-border rounded-lg p-6 bg-background">
+              <h4 class="font-semibold text-foreground mb-2">Border Example</h4>
+              <p class="text-sm text-muted-foreground mb-4">
+                Exemplo de borda usando <code class="bg-muted px-1 py-0.5 rounded text-xs">--border</code>
+              </p>
+              <div class="space-y-2">
+                <div class="h-2 bg-border rounded"></div>
+                <div class="h-2 bg-input rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </section>
+
+  <!-- Typography -->
+  <section class="space-y-6">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Typography</h2>
+      <p class="text-muted-foreground">Hierarquia tipográfica e estilos de texto usando Geist Sans.</p>
+    </div>
+
+    <!-- Typography Tabs Navigation -->
+    <div class="border-b border-border">
+      <nav class="flex gap-2">
+        <button
+          (click)="setTypographyTab('hierarchy')"
+          [class.border-b-2]="activeTypographyTab() === 'hierarchy'"
+          [class.border-primary]="activeTypographyTab() === 'hierarchy'"
+          [class.text-primary]="activeTypographyTab() === 'hierarchy'"
+          [class.text-muted-foreground]="activeTypographyTab() !== 'hierarchy'"
+          class="px-4 py-2 font-medium transition-colors hover:text-foreground"
+        >
+          Hierarquia
+        </button>
+        <button
+          (click)="setTypographyTab('weights')"
+          [class.border-b-2]="activeTypographyTab() === 'weights'"
+          [class.border-primary]="activeTypographyTab() === 'weights'"
+          [class.text-primary]="activeTypographyTab() === 'weights'"
+          [class.text-muted-foreground]="activeTypographyTab() !== 'weights'"
+          class="px-4 py-2 font-medium transition-colors hover:text-foreground"
+        >
+          Pesos
+        </button>
+        <button
+          (click)="setTypographyTab('family')"
+          [class.border-b-2]="activeTypographyTab() === 'family'"
+          [class.border-primary]="activeTypographyTab() === 'family'"
+          [class.text-primary]="activeTypographyTab() === 'family'"
+          [class.text-muted-foreground]="activeTypographyTab() !== 'family'"
+          class="px-4 py-2 font-medium transition-colors hover:text-foreground"
+        >
+          Família
+        </button>
+      </nav>
+    </div>
+
+    <!-- Tab Content: Hierarchy -->
+    @if (activeTypographyTab() === 'hierarchy') {
+      <div class="space-y-6 pt-6">
+        <div class="bg-card border border-border rounded-lg p-6">
+          <h3 class="text-lg font-semibold mb-4">Hierarquia Tipográfica</h3>
+          <p class="text-sm text-muted-foreground mb-6">
+            Todos os níveis de hierarquia disponíveis no sistema de design, com tamanhos, pesos e casos de uso.
+          </p>
+          
+          <div class="space-y-6">
+            @for (hierarchy of typographyHierarchy; track hierarchy.level) {
+              <div class="border-l-4 border-primary pl-6 py-4 bg-background rounded-r-lg">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-3">
+                  <div>
+                    <div class="flex items-center gap-3 mb-2">
+                      <span class="text-sm font-semibold text-muted-foreground">{{ hierarchy.level }}</span>
+                      <span [ngClass]="hierarchy.cssClass" class="text-foreground">
+                        {{ hierarchy.level === 'H1' ? 'Título Principal' :
+                            hierarchy.level === 'H2' ? 'Título de Seção' :
+                            hierarchy.level === 'H3' ? 'Subtítulo' :
+                            hierarchy.level === 'H4' ? 'Título de Card' :
+                            hierarchy.level === 'H5' ? 'Título Pequeno' :
+                            hierarchy.level === 'H6' ? 'Título Mínimo' :
+                            hierarchy.level }}
+                      </span>
+                    </div>
+                    <p class="text-sm text-muted-foreground">{{ hierarchy.useCase }}</p>
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                  <div>
+                    <span class="text-xs text-muted-foreground block mb-1">Tamanho</span>
+                    <code class="text-xs bg-muted px-2 py-1 rounded">{{ hierarchy.fontSize }} ({{ hierarchy.fontSizePx }})</code>
+                  </div>
+                  <div>
+                    <span class="text-xs text-muted-foreground block mb-1">Altura da Linha</span>
+                    <code class="text-xs bg-muted px-2 py-1 rounded">{{ hierarchy.lineHeight }}</code>
+                  </div>
+                  <div>
+                    <span class="text-xs text-muted-foreground block mb-1">Peso</span>
+                    <code class="text-xs bg-muted px-2 py-1 rounded">{{ hierarchy.fontWeight }} ({{ hierarchy.fontWeightName }})</code>
+                  </div>
+                  <div>
+                    <span class="text-xs text-muted-foreground block mb-1">Classe CSS</span>
+                    <code class="text-xs bg-muted px-2 py-1 rounded break-all">{{ hierarchy.cssClass }}</code>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Tab Content: Font Weights -->
+    @if (activeTypographyTab() === 'weights') {
+      <div class="space-y-6 pt-6">
+        <div class="bg-card border border-border rounded-lg p-6">
+          <h3 class="text-lg font-semibold mb-4">Pesos da Fonte</h3>
+          <p class="text-sm text-muted-foreground mb-6">
+            Todos os pesos disponíveis na família Geist Sans, de 100 (Thin) a 900 (Black).
+          </p>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @for (weight of fontWeights; track weight.weight) {
+              <div class="border border-border rounded-lg p-4 bg-background">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <h4 class="font-semibold text-lg" [ngClass]="weight.cssClass">
+                      {{ weight.name }}
+                    </h4>
+                    <p class="text-xs text-muted-foreground mt-1">Peso: {{ weight.weight }}</p>
+                  </div>
+                  <span class="text-2xl font-bold text-primary">{{ weight.weight }}</span>
+                </div>
+                <p class="text-sm text-muted-foreground mb-3">{{ weight.description }}</p>
+                <div class="space-y-2">
+                  <code class="text-xs bg-muted px-2 py-1 rounded block">font-weight: {{ weight.weight }}</code>
+                  <code class="text-xs bg-muted px-2 py-1 rounded block">{{ weight.cssClass }}</code>
+                </div>
+                <div class="mt-4 pt-4 border-t border-border">
+                  <p class="text-sm" [ngClass]="weight.cssClass">
+                    A raposa rápida pula sobre o cão preguiçoso.
+                  </p>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Tab Content: Font Family -->
+    @if (activeTypographyTab() === 'family') {
+      <div class="space-y-6 pt-6">
+        <div class="bg-card border border-border rounded-lg p-6">
+          <div class="mb-6">
+            <h3 class="text-2xl font-bold mb-2" style="font-family: var(--font-sans);">
+              {{ fontFamilyInfo.name }}
+            </h3>
+            <p class="text-muted-foreground">{{ fontFamilyInfo.description }}</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <h4 class="font-semibold mb-3">Informações</h4>
+              <dl class="space-y-2 text-sm">
+                <div class="flex justify-between">
+                  <dt class="text-muted-foreground">Designer:</dt>
+                  <dd class="font-medium">{{ fontFamilyInfo.designer }}</dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-muted-foreground">Provedor:</dt>
+                  <dd class="font-medium">{{ fontFamilyInfo.provider }}</dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-muted-foreground">Licença:</dt>
+                  <dd class="font-medium">{{ fontFamilyInfo.license }}</dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-muted-foreground">Pesos:</dt>
+                  <dd class="font-medium">9 (100-900)</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-3">Características</h4>
+              <ul class="space-y-2 text-sm">
+                @for (feature of fontFamilyInfo.features; track feature) {
+                  <li class="flex items-start gap-2">
+                    <span class="text-primary mt-0.5">✓</span>
+                    <span>{{ feature }}</span>
+                  </li>
+                }
+              </ul>
+            </div>
+          </div>
+
+          <div class="border-t border-border pt-6 space-y-4">
+            <div>
+              <h4 class="font-semibold mb-3">Variável CSS</h4>
+              <code class="block bg-muted p-3 rounded text-sm break-all">
+                {{ fontFamilyInfo.cssVariable }}: {{ fontFamilyInfo.cssValue }}
+              </code>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-3">Font Stack (Fallbacks)</h4>
+              <div class="flex flex-wrap gap-2">
+                @for (fallback of fontFamilyInfo.fallbacks; track fallback) {
+                  <code class="bg-muted px-2 py-1 rounded text-xs">{{ fallback }}</code>
+                }
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-3">Uso no CSS</h4>
+              <div class="bg-muted p-4 rounded space-y-2 text-sm font-mono">
+                <div>
+                  <span class="text-muted-foreground">/* Variável CSS */</span><br>
+                  <span class="text-primary">font-family:</span> <span class="text-foreground">var(--font-sans);</span>
+                </div>
+                <div class="pt-2 border-t border-border">
+                  <span class="text-muted-foreground">/* Tailwind CSS */</span><br>
+                  <span class="text-primary">class</span><span class="text-foreground">="font-sans"</span>
+                </div>
+                <div class="pt-2 border-t border-border">
+                  <span class="text-muted-foreground">/* Direto */</span><br>
+                  <span class="text-primary">font-family:</span> <span class="text-foreground">'Geist Sans', sans-serif;</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h4 class="font-semibold mb-3">Link</h4>
+              <a 
+                [href]="fontFamilyInfo.link" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="text-primary hover:underline text-sm"
+              >
+                {{ fontFamilyInfo.link }}
+              </a>
+            </div>
+          </div>
+
+          <!-- Preview Section -->
+          <div class="border-t border-border pt-6 mt-6">
+            <h4 class="font-semibold mb-4">Preview da Família</h4>
+            <div class="space-y-4">
+              <div class="p-4 bg-background rounded-lg border border-border">
+                <p class="text-xs text-muted-foreground mb-2">Todos os pesos (100-900)</p>
+                <div class="space-y-1">
+                  @for (weight of fontWeights; track weight.weight) {
+                    <p [ngClass]="weight.cssClass" class="text-base">
+                      {{ weight.weight }} - {{ weight.name }}: A raposa rápida pula sobre o cão preguiçoso.
+                    </p>
+                  }
+                </div>
+              </div>
+              
+              <div class="p-4 bg-background rounded-lg border border-border">
+                <p class="text-xs text-muted-foreground mb-2">Hierarquia completa</p>
+                <div class="space-y-2">
+                  @for (hierarchy of typographyHierarchy; track hierarchy.level) {
+                    <p [ngClass]="hierarchy.cssClass">
+                      {{ hierarchy.level }}: {{ hierarchy.useCase }}
+                    </p>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </section>
+
+  <!-- Spacing & Border Radius -->
+  <section class="space-y-6">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Border Radius</h2>
+      <p class="text-muted-foreground">Variações de arredondamento de cantos.</p>
+    </div>
+    
+    <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+      @for (radius of radiusExamples; track radius.value) {
+        <div class="space-y-2">
+          <div 
+            class="w-full aspect-square bg-primary flex items-center justify-center text-primary-foreground font-semibold"
+            [style.border-radius]="radius.value"
+          >
+            {{ radius.label }}
+          </div>
+          <code class="text-xs text-muted-foreground block text-center">{{ radius.value }}</code>
+        </div>
+      }
+    </div>
+    <p class="text-sm text-muted-foreground mt-2">
+      <code>--radius: 0.625rem</code> - Valor padrão do sistema
+    </p>
+  </section>
+
+  <!-- Components Demo -->
+  <section class="space-y-6">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Components</h2>
+      <p class="text-muted-foreground">Componentes base do Spartan UI.</p>
+    </div>
+    
+    <div class="space-y-8">
+      <!-- Cards -->
+      <div>
+        <h3 class="text-lg font-semibold mb-3">Cards</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          @for (card of cardExamples; track card.title) {
+            <div class="bg-card border border-border rounded-lg p-6 shadow-sm">
+              <h4 class="font-semibold text-lg mb-2">{{ card.title }}</h4>
+              <p class="text-sm text-muted-foreground">{{ card.description }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

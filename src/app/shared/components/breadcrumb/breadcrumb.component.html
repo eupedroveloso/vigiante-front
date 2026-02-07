@@ -1,0 +1,31 @@
+<nav hlmBreadcrumb [attr.aria-label]="ariaLabel()">
+  <ol hlmBreadcrumbList>
+    @for (node of nodes(); track $index) {
+      @switch (node.type) {
+        @case ('link') {
+          <li hlmBreadcrumbItem>
+            <a hlmBreadcrumbLink [link]="node.routerLink">{{ node.label }}</a>
+            @if (node.showDropdown) {
+              <ng-icon name="lucideChevronDown" class="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
+            }
+          </li>
+        }
+        @case ('page') {
+          <li hlmBreadcrumbItem>
+            <span hlmBreadcrumbPage class="font-semibold">{{ node.label }}</span>
+          </li>
+        }
+        @case ('ellipsis') {
+          <li hlmBreadcrumbItem>
+            <hlm-breadcrumb-ellipsis srOnlyText="Mais níveis" />
+          </li>
+        }
+      }
+      @if ($index < nodes().length - 1) {
+        <li class="[&>span]:inline-flex" role="presentation" aria-hidden="true">
+          <span hlmBreadcrumbSeparator></span>
+        </li>
+      }
+    }
+  </ol>
+</nav>

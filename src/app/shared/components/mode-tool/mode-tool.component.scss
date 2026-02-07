@@ -1,0 +1,8 @@
+:host {
+  display: inline-block;
+}
+
+// Ícone ativo em laranja (primary): img não herda currentColor
+button.text-primary img {
+  filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(16deg) brightness(102%) contrast(101%);
+}

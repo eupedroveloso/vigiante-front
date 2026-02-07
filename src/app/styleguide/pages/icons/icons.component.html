@@ -1,0 +1,91 @@
+<div class="p-8 space-y-8 max-w-7xl mx-auto">
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Icon Library</h1>
+    <p class="text-muted-foreground text-lg">
+      Biblioteca de ícones SVG do projeto. Clique em um ícone para copiar o código.
+    </p>
+  </header>
+
+  <!-- Search and Filter -->
+  <div class="flex flex-col sm:flex-row gap-4">
+    <div class="flex-1">
+      <input
+        type="text"
+        [value]="searchQuery()"
+        (input)="searchQuery.set($any($event.target).value)"
+        placeholder="Buscar ícones..."
+        class="w-full px-4 py-2 border border-border rounded-md bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+      />
+    </div>
+    <div class="flex gap-2 flex-wrap">
+      @for (category of categories; track category) {
+        <button
+          (click)="selectedCategory.set(category)"
+          [class.bg-primary]="selectedCategory() === category"
+          [class.text-primary-foreground]="selectedCategory() === category"
+          [class.bg-muted]="selectedCategory() !== category"
+          [class.text-muted-foreground]="selectedCategory() !== category"
+          class="px-4 py-2 rounded-md text-sm font-medium transition-colors capitalize"
+        >
+          {{ category === 'all' ? 'Todos' : category }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Icons Grid -->
+  <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+    @for (icon of filteredIcons(); track icon.name) {
+      <div
+        (click)="copyToClipboard(icon.name, icon.path)"
+        class="flex flex-col items-center justify-center p-6 border border-border rounded-lg bg-card hover:bg-muted cursor-pointer transition-colors group"
+        [title]="'Clique para copiar: ' + icon.name"
+      >
+        <div class="w-12 h-12 flex items-center justify-center mb-3 text-foreground group-hover:text-primary transition-colors">
+          <img 
+            [src]="getIconPath(icon)" 
+            [alt]="icon.name"
+            class="w-full h-full object-contain"
+          />
+        </div>
+        <p class="text-sm font-medium text-center text-card-foreground">{{ icon.name }}</p>
+        @if (icon.category) {
+          <span class="text-xs text-muted-foreground mt-1 capitalize">{{ icon.category }}</span>
+        }
+      </div>
+    }
+    @if (filteredIcons().length === 0) {
+      <div class="col-span-full text-center py-12">
+        <p class="text-muted-foreground">Nenhum ícone encontrado.</p>
+      </div>
+    }
+  </div>
+
+  <!-- Usage Instructions -->
+  <section class="mt-12 p-6 bg-card border border-border rounded-lg">
+    <h2 class="text-2xl font-bold mb-4">Como Usar</h2>
+    <div class="space-y-4 text-card-foreground">
+      <div>
+        <h3 class="font-semibold mb-2">1. Como Imagem</h3>
+        <code class="block p-3 bg-muted rounded-md text-sm">
+          &lt;img src="/assets/icons/circle.svg" alt="Circle" /&gt;
+        </code>
+      </div>
+      <div>
+        <h3 class="font-semibold mb-2">2. Como Componente Angular</h3>
+        <code class="block p-3 bg-muted rounded-md text-sm">
+          &lt;img [src]="'/assets/icons/circle.svg'" alt="Circle" /&gt;
+        </code>
+      </div>
+      <div>
+        <h3 class="font-semibold mb-2">3. Com CSS (para mudar cor)</h3>
+        <code class="block p-3 bg-muted rounded-md text-sm">
+          &lt;img src="/assets/icons/circle.svg" class="text-primary" /&gt;
+        </code>
+        <p class="text-sm text-muted-foreground mt-2">
+          Nota: Os SVGs usam <code>fill="currentColor"</code>, então a cor será herdada do texto.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>

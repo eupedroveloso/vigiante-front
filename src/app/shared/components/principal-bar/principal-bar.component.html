@@ -1,0 +1,138 @@
+<div class="w-full flex flex-col">
+  <!-- 1. Barra escura: Project Tabs (Figma 309-1542 - top) -->
+  @if (showProjectTabs() && projectTabs().length > 0) {
+    <div class="w-full min-h-[44px] border-b border-border bg-[#1a1a1a]">
+      <app-project-tabs
+        [showHome]="true"
+        [tabs]="projectTabs()"
+        [activeIndex]="activeProjectTabIndex()"
+        [showAddButton]="showProjectTabsAddButton()"
+        variant="dark"
+        (tabSelect)="onProjectTabSelect($event)"
+        (tabClose)="onProjectTabClose($event)"
+        (tabAdd)="onProjectTabAdd()"
+        (homeClick)="onMenuToggle()"
+      />
+    </div>
+  }
+
+  <!-- 2. Barra branca: Tools Bar Map (ou Menu + Mode Tool + Actions) | Input (Buscar local) | Notifications -->
+  <div class="w-full bg-card border-b border-border px-4 py-3 flex items-center gap-3 min-h-[52px]">
+    @if (showToolsBarMap()) {
+      <app-tools-bar-map
+        [embedded]="true"
+        [modeToolOptions]="modeToolOptions()"
+        [modeToolValue]="modeToolValue()"
+        [activeToolId]="activeToolsBarMapToolId()"
+        (menuClick)="onMenuToggle()"
+        (toolClick)="onToolsBarMapToolClick($event)"
+        (modeChange)="onModeToolChange($event)"
+      />
+    } @else {
+      @if (showMenuToggle()) {
+        <button
+          (click)="onMenuToggle()"
+          class="p-2 rounded-md hover:bg-muted transition-colors flex items-center justify-center shrink-0"
+          aria-label="Toggle menu"
+        >
+          <img [src]="icon('bars.svg')" alt="Menu" class="w-5 h-5" />
+        </button>
+      }
+
+      @if (showModeTool() && modeToolOptions().length > 0) {
+        <app-mode-tool
+          [options]="modeToolOptions()"
+          [value]="modeToolValue()"
+          (valueChange)="onModeToolChange($event)"
+          class="shrink-0"
+        />
+      }
+
+      <div class="flex items-center gap-1 flex-1 min-w-0">
+        @for (action of actions(); track action.id) {
+          <button
+            (click)="onActionClick(action.id)"
+            [disabled]="action.disabled"
+            [class.bg-primary]="action.active"
+            [class.text-primary-foreground]="action.active"
+            [class.bg-background]="!action.active"
+            [class.text-foreground]="!action.active"
+            [class.border]="action.active"
+            [class.border-primary]="action.active"
+            [class.border-border]="!action.active"
+            [class.opacity-50]="action.disabled"
+            [class.cursor-not-allowed]="action.disabled"
+            [class.hover:bg-muted]="!action.active && !action.disabled"
+            class="p-2 rounded-md transition-colors flex items-center justify-center min-w-[40px] h-10 border shrink-0"
+            [attr.aria-label]="action.label || action.id"
+            [title]="action.label || action.id"
+          >
+            <img [src]="action.icon" [alt]="action.label || action.id" class="w-5 h-5" />
+          </button>
+        }
+      </div>
+    }
+
+    <div class="flex-1 min-w-0" aria-hidden="true"></div>
+
+    <div class="flex items-center gap-3 shrink-0">
+      @if (showSearch()) {
+      <button
+        type="button"
+        (click)="onLocationCrosshairsClick()"
+        class="p-2 rounded-md hover:bg-muted transition-colors flex items-center justify-center shrink-0"
+        aria-label="Localização (crosshairs)"
+      >
+        <img [src]="icon('location-crosshairs.svg')" alt="" class="w-5 h-5" />
+      </button>
+      }
+      @if (showSearch()) {
+        <div class="w-64 shrink-0 [&_.space-y-2]:space-y-0 [&_.space-y-2]:mb-0">
+          <app-input
+            label=""
+            description=""
+            iconLeft="magnifying-glass.svg"
+            [placeholder]="searchPlaceholder()"
+            [value]="searchValue()"
+            (valueChange)="onSearchChange($event)"
+          />
+        </div>
+      }
+      @if (showNotifications()) {
+        <button
+          (click)="onNotificationClick()"
+          class="p-2 rounded-md hover:bg-muted transition-colors flex items-center justify-center shrink-0"
+          aria-label="Notifications"
+        >
+          <img [src]="icon('bell.svg')" alt="Notifications" class="w-5 h-5" />
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- 3. Barra Breadcrumb (Figma 309-1542 - abaixo da toolbar) -->
+  @if (showBreadcrumb() && (breadcrumbItems().length > 0 || breadcrumbRightActions().length > 0)) {
+    <div class="w-full bg-card border-b border-border px-4 py-2 min-h-[40px] flex items-center justify-between gap-4">
+      @if (breadcrumbItems().length > 0) {
+        <div class="min-w-0 flex-1">
+          <app-breadcrumb [items]="breadcrumbItems()" ariaLabel="Navegação" />
+        </div>
+      }
+      @if (breadcrumbRightActions().length > 0) {
+        <div class="flex items-center gap-1 shrink-0">
+          @for (action of breadcrumbRightActions(); track action.id) {
+            <button
+              type="button"
+              (click)="onBreadcrumbActionClick(action.id)"
+              class="p-2 rounded-md hover:bg-muted transition-colors flex items-center justify-center"
+              [attr.aria-label]="action.label || action.id"
+              [title]="action.label || action.id"
+            >
+              <img [src]="icon(action.icon)" [alt]="action.label || action.id" class="w-4 h-4 text-muted-foreground" />
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

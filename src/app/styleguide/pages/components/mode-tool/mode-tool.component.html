@@ -1,0 +1,148 @@
+<div class="p-8 space-y-12 max-w-7xl mx-auto">
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Mode Tool</h1>
+    <p class="text-muted-foreground text-lg">
+      Seletor de modo de visualização (ex.: mapa / lista) com ícones e estados ativo/inativo.
+    </p>
+  </header>
+
+  <!-- Import -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Import</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+import {{ '{' }} ModeToolComponent, ModeToolOption {{ '}' }} from '@/shared/components/mode-tool/mode-tool.component';
+
+@@Component({{ '{' }}
+  imports: [ModeToolComponent]
+{{ '}' }})
+    </code></pre>
+  </section>
+
+  <!-- Default -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Exemplo padrão</h2>
+      <p class="text-muted-foreground">Mapa selecionado e lista selecionado.</p>
+    </div>
+    <div class="flex flex-wrap items-center gap-8">
+      <div class="space-y-2">
+        <p class="text-sm text-muted-foreground">Mapa ativo</p>
+        <app-mode-tool
+          [options]="options"
+          [value]="selectedMode()"
+          (valueChange)="onModeChange($event)"
+        />
+      </div>
+      <div class="space-y-2">
+        <p class="text-sm text-muted-foreground">Modo atual: <strong>{{ selectedMode() }}</strong></p>
+        <app-mode-tool
+          [options]="options"
+          [value]="selectedMode()"
+          (valueChange)="onModeChange($event)"
+        />
+      </div>
+    </div>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+&lt;app-mode-tool
+  [options]="options"
+  [(value)]="selectedMode"
+  (valueChange)="onModeChange($event)"
+/&gt;
+    </code></pre>
+  </section>
+
+  <!-- Disabled -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Desabilitado</h2>
+      <p class="text-muted-foreground">Estado desabilitado.</p>
+    </div>
+    <app-mode-tool
+      [options]="options"
+      value="map"
+      [disabled]="true"
+    />
+  </section>
+
+  <!-- Props -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Props</h2>
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Prop</th>
+            <th class="text-left p-3 font-semibold">Type</th>
+            <th class="text-left p-3 font-semibold">Default</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">options</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">ModeToolOption[]</code></td>
+            <td class="p-3"><code class="text-sm">[]</code></td>
+            <td class="p-3">Lista de opções (id, icon, label)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">value</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">''</code></td>
+            <td class="p-3">Id da opção selecionada (two-way binding)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">disabled</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">false</code></td>
+            <td class="p-3">Desabilita o componente</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Events</h2>
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Event</th>
+            <th class="text-left p-3 font-semibold">Payload</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">valueChange</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">Id da opção selecionada</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ModeToolOption -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">ModeToolOption</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+export interface ModeToolOption {{ '{' }}
+  id: string;
+  icon: string;
+  label?: string;
+{{ '}' }}
+    </code></pre>
+  </section>
+
+  <!-- Accessibility -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Acessibilidade</h2>
+    <div class="bg-muted/50 p-4 rounded-lg space-y-2 text-sm">
+      <p><strong>Teclado:</strong> Botões focáveis e ativáveis com Enter/Space.</p>
+      <p><strong>ARIA:</strong> role="group", aria-label, aria-pressed no estado selecionado.</p>
+      <p><strong>Foco:</strong> Anel de foco visível (focus-visible:ring).</p>
+    </div>
+  </section>
+</div>

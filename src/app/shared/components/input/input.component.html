@@ -1,0 +1,71 @@
+<div class="space-y-2" [ngClass]="{ 'opacity-60': disabled() }">
+  @if (label()) {
+    <label
+      [for]="computedId()"
+      class="block text-sm font-medium"
+      [ngClass]="disabled() ? 'text-muted-foreground' : 'text-foreground'"
+    >
+      {{ label() }}
+    </label>
+  }
+  @if (type() === 'file') {
+    <div class="flex items-center gap-2 min-h-9">
+      <input
+        [id]="computedId()"
+        type="file"
+        [disabled]="disabled()"
+        class="file:text-foreground file:border-input focus-visible:border-ring focus-visible:ring-ring/50 flex h-9 min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:mr-2 file:inline-flex file:h-7 file:rounded-md file:border file:border-solid file:bg-transparent file:px-3 file:text-sm file:font-medium focus-visible:ring-[3px] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+        [ngClass]="showError() ? 'border-destructive focus-visible:border-destructive focus-visible:ring-destructive/20' : 'border-input'"
+      />
+      <span
+        class="text-sm"
+        [ngClass]="disabled() ? 'text-muted-foreground/70' : 'text-muted-foreground'"
+      >
+        No file chosen
+      </span>
+    </div>
+  } @else if (iconLeftUrl()) {
+    <div
+      class="flex items-stretch min-h-9 w-full min-w-0 rounded-md border bg-transparent text-base shadow-xs transition-[color,box-shadow] focus-within:ring-[3px] focus-within:ring-ring/50 focus-within:border-ring outline-none md:text-sm"
+      [ngClass]="{
+        'border-destructive focus-within:border-destructive focus-within:ring-destructive/20': showError(),
+        'border-input': !showError(),
+        'opacity-50 pointer-events-none': disabled()
+      }"
+    >
+      <div class="flex items-center justify-center p-3 shrink-0 text-muted-foreground" aria-hidden="true">
+        <img [src]="iconLeftUrl()" alt="" class="w-4 h-4" />
+      </div>
+      <div class="w-px bg-border shrink-0 self-stretch my-1.5" aria-hidden="true"></div>
+      <input
+        [id]="computedId()"
+        type="text"
+        [placeholder]="placeholder()"
+        [disabled]="disabled()"
+        [value]="value()"
+        (input)="onInput($event)"
+        class="flex-1 min-w-0 border-0 bg-transparent px-3 py-2 text-foreground placeholder:text-muted-foreground outline-none focus:ring-0 disabled:cursor-not-allowed"
+      />
+    </div>
+  } @else {
+    <input
+      hlmInput
+      [id]="computedId()"
+      type="text"
+      [placeholder]="placeholder()"
+      [disabled]="disabled()"
+      [value]="value()"
+      [error]="showError() ? true : 'auto'"
+      (input)="onInput($event)"
+      class="w-full"
+    />
+  }
+  @if (description()) {
+    <p
+      class="text-sm"
+      [ngClass]="disabled() ? 'text-muted-foreground/80' : 'text-muted-foreground'"
+    >
+      {{ description() }}
+    </p>
+  }
+</div>

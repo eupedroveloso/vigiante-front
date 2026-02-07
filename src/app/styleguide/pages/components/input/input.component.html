@@ -1,0 +1,249 @@
+<div class="p-8 space-y-12 max-w-7xl mx-auto">
+  <header>
+    <h1 class="text-4xl font-bold mb-2">Input</h1>
+    <p class="text-muted-foreground text-lg">
+      Campo de entrada com label e descrição, conforme design Figma ViconSaga. Inclui estados: padrão, hover/foco, desabilitado, erro e erro em foco. Suporta input de texto e input de arquivo.
+    </p>
+  </header>
+
+  <!-- Import -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Import</h2>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+import {{ '{' }} InputComponent {{ '}' }} from '@/shared/components/input/input.component';
+
+@@Component({{ '{' }}
+  imports: [InputComponent]
+{{ '}' }})
+    </code></pre>
+  </section>
+
+  <!-- Design Figma: grid 7 rows x 2 cols -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Design Figma (ViconSaga)</h2>
+      <p class="text-muted-foreground">
+        Grade de estados: texto (esquerda) e arquivo (direita). Estados: padrão, hover/foco, desabilitado, erro, erro em foco.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+      <!-- Col 1: Text input -->
+      <div class="space-y-8">
+        <h3 class="text-lg font-semibold text-muted-foreground">Input (texto)</h3>
+        <!-- Default -->
+        <app-input
+          label="Label"
+          placeholder="Placeholder"
+          description="This is an input description."
+          [value]="textValue()"
+          (valueChange)="textValue.set($event)"
+        />
+        <!-- Hover/Focus: same as default, user focuses to see ring -->
+        <div>
+          <p class="text-xs text-muted-foreground mb-2">Hover / Focus (interaja para ver borda e ring)</p>
+          <app-input
+            label="Label"
+            placeholder="Placeholder"
+            description="This is an input description."
+            [value]="textValueWithFocus()"
+            (valueChange)="textValueWithFocus.set($event)"
+          />
+        </div>
+        <!-- Disabled -->
+        <app-input
+          label="Label"
+          placeholder="Placeholder"
+          description="This is an input description."
+          [disabled]="true"
+        />
+        <!-- Error -->
+        <app-input
+          label="Label"
+          placeholder="Placeholder"
+          description="This is an input description."
+          [error]="true"
+          [value]="textValueError()"
+          (valueChange)="textValueError.set($event)"
+        />
+        <!-- Error Hover/Focus -->
+        <div>
+          <p class="text-xs text-muted-foreground mb-2">Erro + Focus</p>
+          <app-input
+            label="Label"
+            placeholder="Placeholder"
+            description="This is an input description."
+            [error]="true"
+            [value]="textValueErrorFocus()"
+            (valueChange)="textValueErrorFocus.set($event)"
+          />
+        </div>
+      </div>
+
+      <!-- Col 2: File input -->
+      <div class="space-y-8">
+        <h3 class="text-lg font-semibold text-muted-foreground">Input (arquivo)</h3>
+        <app-input type="file" label="Label" description="This is an input description." />
+        <div>
+          <p class="text-xs text-muted-foreground mb-2">Hover / Focus</p>
+          <app-input type="file" label="Label" description="This is an input description." />
+        </div>
+        <app-input type="file" label="Label" description="This is an input description." [disabled]="true" />
+        <app-input type="file" label="Label" description="This is an input description." [error]="true" />
+        <div>
+          <p class="text-xs text-muted-foreground mb-2">Erro + Focus</p>
+          <app-input type="file" label="Label" description="This is an input description." [error]="true" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Input com ícone à esquerda e divisor -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Com ícone à esquerda e divisor</h2>
+      <p class="text-muted-foreground">Variação com ícone na parte esquerda e linha vertical separando do campo de texto.</p>
+    </div>
+    <div class="space-y-2 max-w-md">
+      <app-input
+        iconLeft="magnifying-glass.svg"
+        placeholder="Buscar formulário"
+        [value]="searchWithIconValue()"
+        (valueChange)="searchWithIconValue.set($event)"
+      />
+    </div>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+&lt;app-input
+  iconLeft="magnifying-glass.svg"
+  placeholder="Buscar formulário"
+  [value]="value()"
+  (valueChange)="value.set($event)"
+/&gt;
+    </code></pre>
+  </section>
+
+  <!-- Uso direto do Helm -->
+  <section class="space-y-4">
+    <div>
+      <h2 class="text-2xl font-bold mb-1">Uso direto do Helm (hlmInput)</h2>
+      <p class="text-muted-foreground">Sem label/description; apenas a diretiva no input.</p>
+    </div>
+    <div class="space-y-2 max-w-sm">
+      <label class="block text-sm font-medium text-foreground" for="helm-demo">Label</label>
+      <input
+        id="helm-demo"
+        hlmInput
+        type="text"
+        placeholder="Placeholder"
+        class="w-full"
+      />
+      <p class="text-sm text-muted-foreground">This is an input description.</p>
+    </div>
+    <pre class="bg-muted p-4 rounded-lg overflow-x-auto"><code class="text-sm">
+import {{ '{' }} HlmInput {{ '}' }} from '@spartan-ng/helm/input';
+
+&lt;input hlmInput type="text" placeholder="Placeholder" /&gt;
+    </code></pre>
+  </section>
+
+  <!-- Props -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Props (app-input)</h2>
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Prop</th>
+            <th class="text-left p-3 font-semibold">Type</th>
+            <th class="text-left p-3 font-semibold">Default</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">label</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">'Label'</code></td>
+            <td class="p-3">Rótulo acima do campo</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">placeholder</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">'Placeholder'</code></td>
+            <td class="p-3">Placeholder do input (text)</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">description</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">'This is an input description.'</code></td>
+            <td class="p-3">Texto de ajuda abaixo</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">iconLeft</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">undefined</code></td>
+            <td class="p-3">Nome do ícone em assets/icons (ex: 'magnifying-glass.svg'); exibe ícone à esquerda e divisor vertical</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">disabled</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean</code></td>
+            <td class="p-3"><code class="text-sm">false</code></td>
+            <td class="p-3">Desabilita o campo</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">error</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">boolean &#124; 'auto'</code></td>
+            <td class="p-3"><code class="text-sm">false</code></td>
+            <td class="p-3">Estado de erro (borda vermelha); 'auto' com formulário reativo</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">type</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">'text'</code></td>
+            <td class="p-3">'text' ou 'file'</td>
+          </tr>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">value</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3"><code class="text-sm">''</code></td>
+            <td class="p-3">Valor (use com valueChange para two-way)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <section class="space-y-4">
+    <h2 class="text-2xl font-bold">Events</h2>
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-muted">
+          <tr>
+            <th class="text-left p-3 font-semibold">Event</th>
+            <th class="text-left p-3 font-semibold">Payload</th>
+            <th class="text-left p-3 font-semibold">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-t">
+            <td class="p-3"><code class="text-sm">valueChange</code></td>
+            <td class="p-3"><code class="text-sm text-muted-foreground">string</code></td>
+            <td class="p-3">Valor atual do input (type text)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Accessibility -->
+  <section class="space-y-3">
+    <h2 class="text-2xl font-bold">Acessibilidade</h2>
+    <div class="bg-muted/50 p-4 rounded-lg space-y-2 text-sm">
+      <p><strong>Label:</strong> label associado ao input via for/id</p>
+      <p><strong>Foco:</strong> anel de foco visível (ring) com var(--ring)</p>
+      <p><strong>Erro:</strong> borda destrutiva (--destructive) para indicar erro</p>
+      <p><strong>Desabilitado:</strong> opacity reduzida e pointer-events-none</p>
+    </div>
+  </section>
+</div>
